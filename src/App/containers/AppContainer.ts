@@ -1,12 +1,17 @@
 import { connect } from 'react-redux';
 import { State } from '../utils/types';
 import App from '../App';
+import * as actions from '../actions/actions';
 
 const mapStateToProps = (state: State) => ({
-	stuff: state.stuff,
+	dialogue: state.dialogue[state.index],
 });
 
-const mapDispatchToProps = (dispatch: any) => ({});
+const mapDispatchToProps = (dispatch: any) => ({
+	nextDialogue: () => {
+		dispatch(actions.nextDialogue());
+	}
+});
 
 const AppContainer = connect(mapStateToProps, mapDispatchToProps)(App);
 

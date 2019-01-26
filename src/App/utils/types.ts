@@ -1,3 +1,4 @@
 export interface State {
-    stuff: string[];
+    dialogue: string[];
+    index: number;
 }
