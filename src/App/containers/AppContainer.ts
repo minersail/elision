@@ -5,6 +5,7 @@ import * as actions from '../actions/actions';
 
 const mapStateToProps = (state: State) => ({
 	dialogue: state.dialogue[state.index],
+	demoType: state.demoType,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({

@@ -6,6 +6,7 @@ import { advanceDialogue } from './dialogue';
 const initialState = {
     dialogue: ["Click", "The", "Arrows", "To", "Progress", "Through", "This", "Linear", "Dialogue", "That", "Resets"],
     index: 0,
+    demoType: 1,
 };
 
 function reducer(state: State = initialState, action: Action): State {

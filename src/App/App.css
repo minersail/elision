@@ -48,3 +48,123 @@
         transform: rotate(360deg);
     }
 }
+
+/*******************/
+.game-container {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+/***** Sidebar ******/
+
+.sidebar-container {
+    display: flex;
+    flex-direction: column;
+
+    /*background-color: #3d1708;
+    color: #6c400d;*/
+    background-color: #FFFFF0;
+    width: 20%;
+}
+
+.sidebar-name {
+    margin-bottom: 0px;
+}
+
+.sidebar-reputation {
+    color: #3e3e3e;
+}
+
+.sidebar-money {
+    color: green;
+    font-size: 36px;
+
+    margin-top: 20px;
+    margin-bottom: auto;
+}
+
+.sidebar-notebook-container {
+    width: 100%;
+    margin-bottom: 50px;
+
+    text-align: center;
+}
+
+.sidebar-notebook {
+    width: 50%;
+    padding-bottom: 62.5%; /* use instead of height to keep aspect ratio */
+    margin: 0 auto;
+
+    background-color: tan;
+    transform: rotate(20deg);
+}
+
+/***** City ******/
+
+.city-container {
+    /*background-color: #c2a37a;*/
+    background-color: #EFEFEF;
+    width: 80%;
+}
+
+.city-title {
+    font-size: 48px;
+    border-top: 0px;
+
+    display: inline-block;
+    padding: 10px 50px 30px 50px;
+}
+
+.city-title:after {
+    content: "";
+
+    display: block;
+    position: relative;
+    left: -50%;
+
+    height: 50%;
+    width: 200%;
+
+    padding-top: 20px;
+    margin: 0 auto;
+
+    border: 3px solid #3e3e3e;
+    border-top: 0;
+}
+
+.city-grid {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto auto;
+}
+
+.city-grid button {
+    width: 40%;
+
+    border: 0;
+    padding: 10px;
+    margin: 50px 0;
+
+    font-size: 24px;
+
+    box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
+}
+
+.city-grid button:focus {
+    outline: none;
+}
+
+.city-grid button:active {
+    box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
+}
+
+.city-grid button:nth-child(odd) {
+    justify-self: right;
+    margin-right: 75px;
+}
+
+.city-grid button:nth-child(even) {
+    justify-self: left;
+    margin-left: 75px;
+}
