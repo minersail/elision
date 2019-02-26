@@ -1,5 +1,41 @@
+:root {
+    --primary: #3D3536;
+    --secondary: #F0E6B1;
+    --tertiary: #70584B;
+    --money: #99A37A;
+
+    --secondary-faded: #4a452b;
+    --secondary-shadow: #F0E6B166;
+
+    /* --primary: #332F29;
+    --secondary: #CC3910;
+    --tertiary: #F1F2C0;
+    --money: #8FA68E;
+
+    --secondary-faded: #d0875c;
+    --secondary-shadow: #CC391033; */
+
+    /* --primary: #63674A;
+    --secondary: #EDC5B5;
+    --tertiary: #907465;
+    --money: #63674A;
+
+    --secondary-faded: #a89680;
+    --secondary-shadow: #EDC5B533; */
+}
+
+button  {
+    border: 0;
+    background-color: transparent;
+}
+
+button:focus {
+    outline: none;
+}
+
 .App {
     text-align: center;
+    color: var(--secondary);
 }
 
 .App-logo {
@@ -62,22 +98,22 @@
     display: flex;
     flex-direction: column;
 
-    /*background-color: #3d1708;
-    color: #6c400d;*/
-    background-color: #FFFFF0;
+    background-color: var(--secondary);
     width: 20%;
 }
 
 .sidebar-name {
     margin-bottom: 0px;
+
+    color: var(--primary);
 }
 
 .sidebar-reputation {
-    color: #3e3e3e;
+    color: var(--primary);
 }
 
 .sidebar-money {
-    color: green;
+    color: var(--money);
     font-size: 36px;
 
     margin-top: 20px;
@@ -86,7 +122,7 @@
 
 .sidebar-notebook-container {
     width: 100%;
-    margin-bottom: 50px;
+    margin-bottom: 20%;
 
     text-align: center;
 }
@@ -96,15 +132,14 @@
     padding-bottom: 62.5%; /* use instead of height to keep aspect ratio */
     margin: 0 auto;
 
-    background-color: tan;
+    background-color: var(--tertiary);
     transform: rotate(20deg);
 }
 
 /***** City ******/
 
 .city-container {
-    /*background-color: #c2a37a;*/
-    background-color: #EFEFEF;
+    background-color: var(--primary);
     width: 80%;
 }
 
@@ -121,7 +156,7 @@
 
     display: block;
     position: relative;
-    left: -50%;
+    left: -52%;
 
     height: 50%;
     width: 200%;
@@ -129,7 +164,7 @@
     padding-top: 20px;
     margin: 0 auto;
 
-    border: 3px solid #3e3e3e;
+    border: 3px solid var(--secondary-faded);
     border-top: 0;
 }
 
@@ -142,21 +177,18 @@
 .city-grid button {
     width: 40%;
 
-    border: 0;
     padding: 10px;
     margin: 50px 0;
 
     font-size: 24px;
 
-    box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
-}
-
-.city-grid button:focus {
-    outline: none;
+    background-color: var(--secondary);
+    color: var(--primary);
+    box-shadow: 0px 3px 15px var(--secondary-shadow);
 }
 
 .city-grid button:active {
-    box-shadow: 0px 3px 5px rgba(0,0,0,0.2);
+    box-shadow: 0px 3px 5px var(--secondary-shadow);
 }
 
 .city-grid button:nth-child(odd) {
@@ -167,4 +199,74 @@
 .city-grid button:nth-child(even) {
     justify-self: left;
     margin-left: 75px;
+}
+
+/***** Main Street *****/
+
+.city-info-container {
+    width: 60%;
+
+    background-color: var(--primary);
+
+    box-shadow: 0px 3px 15px var(--secondary-shadow);
+
+    margin: auto;
+}
+
+.city-info {
+    font-size: 20px;
+    text-align: left;
+
+    padding: 50px;
+    
+    background-color: var(--secondary);
+    color: var(--primary);
+}
+
+.city-info-choice-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+    font-size: 24px;
+}
+
+.city-info-choice {
+    flex: 1 1 0;
+
+    color: var(--secondary);
+    font-size: inherit;
+
+    padding: 0.5em;
+    box-shadow: inset 0px 3px 5px black;
+
+    border: 1px solid var(--secondary);
+    
+    transition: border 0.25s;
+}
+
+.city-info-choice:hover {
+    border: 1px solid transparent;
+}
+
+.city-info-choice:active {
+    box-shadow: inset 0px 3px 15px black;
+}
+
+/***** Journey ******/
+
+.journey-container {
+
+}
+
+.journey-destination {
+
+}
+
+.journey-day {
+
+}
+
+.journey-info {
+
 }
