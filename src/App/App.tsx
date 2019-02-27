@@ -61,7 +61,7 @@ class App extends Component<AppProps> {
                         (this.props.gameScreen === 2 &&
                         <div className="game-container">
                             <Sidebar name="Ibrahim" reputation="anonymous, unvetted" cash={ this.props.cash } inverted={ true } />
-                            <Journey destination="Bab-el-Hawa" day={ 0 } chooseOption={ this.props.chooseJourneyOption } data={ this.props.journeyData } />
+                            <Journey destination="Bab-el-Hawa" chooseOption={ this.props.chooseJourneyOption } data={ this.props.journeyData } />
                         </div>)
                     }
             </div>

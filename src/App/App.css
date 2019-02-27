@@ -122,6 +122,8 @@ button:focus {
 
     margin-top: 20px;
     margin-bottom: auto;
+
+    position: relative;
 }
 
 .sidebar-notebook-container {
@@ -138,6 +140,8 @@ button:focus {
 
     background-color: var(--tertiary);
     transform: rotate(20deg);
+
+    border-radius: 10px;
 }
 
 .inverted.sidebar-container {
@@ -146,6 +150,22 @@ button:focus {
 
 .inverted .sidebar-name, .inverted .sidebar-reputation {
     color: var(--secondary);
+}
+
+.tooltip {
+    visibility: hidden;
+    position: absolute;
+    z-index: 1;
+
+    font-size: 20px;
+    width: 6em;
+    
+    top: 100%;
+    left: calc(50% - 3em);
+}
+
+.sidebar-money:hover .tooltip {
+    visibility: visible;
 }
 
 /***** City ******/
@@ -286,6 +306,7 @@ button:focus {
 }
 
 .inverted .info-choice:active {
+    border: 1px solid transparent;
     box-shadow: 0px 3px 15px white;
 }
 
@@ -298,7 +319,7 @@ button:focus {
 
     width: 60%;
     margin: auto;
-    margin-top: 20%;
+    margin-top: 10%;
 }
 
 .recruit {
@@ -307,6 +328,32 @@ button:focus {
 
     box-shadow: 0px 3px 10px var(--secondary-shadow);
     padding: 0 15px;
+
+    max-width: 33%;
+}
+
+.recruit h3 {
+    font-size: 24px;
+}
+
+.recruit button {
+    display: inline-block;
+    width: 100%;
+    padding: 15px 0;
+
+    background-color: var(--primary);
+    color: var(--secondary);
+    box-shadow: inset 0px 3px 5px var(--primary-shadow);
+
+    font-size: 20px;
+}
+
+.recruit button:hover {
+    box-shadow: 0px 3px 5px var(--primary-shadow);
+}
+
+.recruit button:active {
+    box-shadow: inset 0px 3px 10px var(--primary-shadow);
 }
 
 /***** Journey ******/

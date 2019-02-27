@@ -8,15 +8,15 @@ const initialState = {
     index: 0,
     demoType: 1,
     gameScreen: 0,
-    cash: 500,
+    cash: 1000,
     migrants: [
         {
             id: 0,
-            name: "Bob",
-            nationality: "Bobese",
-            languages: ["Bobese"],
-            shortBio: "Bob is nice",
-            bio: "Bob is very nice",
+            name: "Waseem",
+            nationality: "Syrian",
+            languages: ["Aramaic", "Arabic"],
+            shortBio: "A Christian pacifist, Waseem is fleeing the Syrian civil war.",
+            bio: "Waseem fled after military service...finish bio later",
             state: MigrantState.Open,
         }
     ],
@@ -33,18 +33,33 @@ const initialState = {
                     He recognizes you with your passenger, then stops as if to say the next move is on you.",
                 options: [
                     {
-                        choiceText: "Give him $100 to look the other way.",
+                        choiceText: "Give him ₺200 to look the other way.",
                         action: {
                             actionType: JourneyActionType.ModifyCash as JourneyActionType.ModifyCash, // https://github.com/Microsoft/TypeScript/issues/28102
-                            cash: -100,
+                            cash: -200,
                         }
                     },
                 ]
             },
             {
-                text: "Bob tells you about his dark, secret past.",
+                text: "A day passes at sea without much excitement. Waseem breaks the silence by \
+                    telling you about how his two-year military service was extended indefinitely, \
+                    due to the onset of the Syrian civil war. He defected overnight, leaving with \
+                    only enough cash to pay you.",
                 options: [
-                    ContinueOption,
+                    {
+                        choiceText: "Spare him ₺200 for his future endeavours.",
+                        action: {
+                            actionType: JourneyActionType.ModifyCash as JourneyActionType.ModifyCash,
+                            cash: -200,
+                        }
+                    },
+                    {
+                        choiceText: "Continue in silence.",
+                        action: {
+                            actionType: JourneyActionType.Continue as JourneyActionType.Continue,
+                        }
+                    }
                 ]
             }
         ],

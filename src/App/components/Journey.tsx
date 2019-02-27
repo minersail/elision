@@ -3,7 +3,6 @@ import { JourneyAction, JourneyData, JourneyDay } from "../utils/types";
 
 interface JourneyProps {
     destination: string;
-    day: number;
     data: JourneyData;
     
     chooseOption: (action: JourneyAction) => void;
@@ -16,7 +15,7 @@ function Journey(props: JourneyProps) {
 	return (
         <div className="journey-container">
             <h1 className="journey-destination">Journey to { props.destination }</h1>
-            <h3 className="journey-day">Day { props.day }</h3>
+            <h3 className="journey-day">Day { props.data.index }</h3>
             <div className="info-container inverted">
                 <div className="info">{ day.text }</div>
                 <div className="info-choice-container">

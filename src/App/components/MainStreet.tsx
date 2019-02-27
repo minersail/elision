@@ -43,21 +43,21 @@ class MainStreet extends React.Component<MainStreetProps, MainStreetState> {
                         [<div className="info" key="0">You approach { selected.name }, and discreetly ask if migrant services are needed. After 
                         a short conversation, you gauge that { selected.name } has enough interest to consider your proposal.</div>,
                         <div className="info-choice-container" key="1">
-                            <button className="info-choice" onClick={ () => { this.props.acceptRecruit(selected.id) } }>Accept { selected.name }</button>
-                            <button className="info-choice" onClick={ () => { this.props.switchScreen(0); } }>Return to the city</button>
+                            <button className="info-choice" onClick={ () => { this.props.acceptRecruit(selected.id); this.props.switchScreen(0); } }>Accept { selected.name }</button>
+                            <button className="info-choice" onClick={ () => { this.setState({...this.state, selectedRecruit: null, showRecruits: false}); } }>Change your mind</button>
                         </div>]
                     }
                 </div>
                     
                 {
                     this.state.showRecruits && 
-                    this.props.migrants.filter((migrant) => migrant.state === MigrantState.Open).map((migrant) => 
+                    this.props.migrants.filter((migrant) => migrant.state === MigrantState.Open && migrant !== selected).map((migrant) => 
                     (
                         <div className="recruit-container" key={ migrant.id }>
                             <div className="recruit">
                                 <h3>{ migrant.name }</h3>
-                                <p>Nationality is { migrant.nationality }</p>
-                                <p>Speaks { migrant.languages.join(", ") }</p>
+                                <p>{ migrant.name } is a { migrant.nationality } who 
+                                speaks { migrant.languages.slice(0, -1).join(", ") + " and " + migrant.languages.slice(-1).pop() }.</p>
                                 <p>{ migrant.shortBio }</p>
                                 <button onClick={ () => { this.setState({...this.state, selectedRecruit: migrant}); } }>Select</button>
                             </div>
