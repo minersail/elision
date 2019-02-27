@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import logo from '../logo.svg';
 import './App.css';
+import { JourneyAction, JourneyData, Migrant, MigrantState } from './utils/types';
 import DialogueBox from './components/DialogueBox';
 import Sidebar from './components/Sidebar';
 import City from './components/City';
-import Journey from './components/City';
+import Journey from './components/Journey';
 import MainStreet from './components/MainStreet';
 
 interface AppProps {
@@ -12,8 +13,14 @@ interface AppProps {
     demoType: number;
     gameScreen: number;
 
+    cash: number;
+    migrants: Migrant[];
+    journeyData: JourneyData;
+
     nextDialogue: () => void;
     switchScreen: (screenId: number) => void;
+    acceptRecruit: (migrantID: number) => void;
+    chooseJourneyOption: (action: JourneyAction) => void;
 }
 
 class App extends Component<AppProps> {
@@ -32,19 +39,29 @@ class App extends Component<AppProps> {
                     
                         (this.props.gameScreen === 0 &&
                         <div className="game-container">
-                            <Sidebar name="Ibrahim" reputation="anonymous, unvetted" money="500" />
-                            <City name="Izmir" switchScreen={ this.props.switchScreen } />
+                            <Sidebar name="Ibrahim" reputation="anonymous, unvetted" cash={ this.props.cash } inverted={ false } />
+                            <City name="Izmir" switchScreen={ this.props.switchScreen } 
+                            hasSelectedMigrants={ this.props.migrants.filter((m) => m.state === MigrantState.Selected).length > 0 }/>
                         </div>)
 
                         ||
 
                         (this.props.gameScreen === 1 &&
                         <div className="game-container">
-                            <Sidebar name="Ibrahim" reputation="anonymous, unvetted" money="500" />
+                            <Sidebar name="Ibrahim" reputation="anonymous, unvetted" cash={ this.props.cash } inverted={ false } />
                             <MainStreet info="Izmir's streets are lined with bistros, shops, and hotels. Around
                             a well-known cafe, you spot a few figures who act like they don't quite belong. Perhaps
                             they are just from out of town, but it wouldn't hurt to see if anyone's looking for a guide." 
-                            switchScreen={ this.props.switchScreen } />
+                            migrants={ this.props.migrants }
+                            switchScreen={ this.props.switchScreen } acceptRecruit={ this.props.acceptRecruit } />
+                        </div>)
+
+                        ||
+
+                        (this.props.gameScreen === 2 &&
+                        <div className="game-container">
+                            <Sidebar name="Ibrahim" reputation="anonymous, unvetted" cash={ this.props.cash } inverted={ true } />
+                            <Journey destination="Bab-el-Hawa" day={ 0 } chooseOption={ this.props.chooseJourneyOption } data={ this.props.journeyData } />
                         </div>)
                     }
             </div>

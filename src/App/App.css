@@ -4,6 +4,8 @@
     --tertiary: #70584B;
     --money: #99A37A;
 
+    --primary-shadow: black;
+
     --secondary-faded: #4a452b;
     --secondary-shadow: #F0E6B166;
 
@@ -27,6 +29,8 @@
 button  {
     border: 0;
     background-color: transparent;
+    cursor: pointer;
+    user-select: none;
 }
 
 button:focus {
@@ -136,6 +140,14 @@ button:focus {
     transform: rotate(20deg);
 }
 
+.inverted.sidebar-container {
+    background-color: var(--primary);
+}
+
+.inverted .sidebar-name, .inverted .sidebar-reputation {
+    color: var(--secondary);
+}
+
 /***** City ******/
 
 .city-container {
@@ -170,8 +182,7 @@ button:focus {
 
 .city-grid {
     display: grid;
-    grid-template-columns: auto auto;
-    grid-template-rows: auto auto auto;
+    grid-template-columns: repeat(2, 1fr);
 }
 
 .city-grid button {
@@ -201,9 +212,9 @@ button:focus {
     margin-left: 75px;
 }
 
-/***** Main Street *****/
+/***** Info tabs *****/
 
-.city-info-container {
+.info-container {
     width: 60%;
 
     background-color: var(--primary);
@@ -213,7 +224,7 @@ button:focus {
     margin: auto;
 }
 
-.city-info {
+.info {
     font-size: 20px;
     text-align: left;
 
@@ -223,7 +234,7 @@ button:focus {
     color: var(--primary);
 }
 
-.city-info-choice-container {
+.info-choice-container {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -231,42 +242,92 @@ button:focus {
     font-size: 24px;
 }
 
-.city-info-choice {
+.info-choice {
     flex: 1 1 0;
 
     color: var(--secondary);
     font-size: inherit;
 
     padding: 0.5em;
-    box-shadow: inset 0px 3px 5px black;
+    box-shadow: inset 0px 3px 5px var(--primary-shadow);
 
     border: 1px solid var(--secondary);
     
-    transition: border 0.25s;
+    transition: border 0.25s, box-shadow 0.25s;
 }
 
-.city-info-choice:hover {
+.info-choice:hover {
     border: 1px solid transparent;
 }
 
-.city-info-choice:active {
-    box-shadow: inset 0px 3px 15px black;
+.info-choice:active {
+    box-shadow: inset 0px 3px 15px var(--primary-shadow);
+}
+
+.inverted.info-container {    
+    box-shadow: 0px 3px 15px var(--primary-shadow);
+}
+
+.inverted .info {
+    background-color: var(--primary);
+    color: var(--secondary);
+}
+
+.inverted .info-choice {
+    background-color: var(--secondary);
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    box-shadow: inset 0px 3px 5px var(--secondary-faded);
+}
+
+.inverted .info-choice:hover {
+    border: 1px solid transparent;
+    box-shadow: none;
+}
+
+.inverted .info-choice:active {
+    box-shadow: 0px 3px 15px white;
+}
+
+/***** Main Street *****/
+
+.recruit-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    width: 60%;
+    margin: auto;
+    margin-top: 20%;
+}
+
+.recruit {
+    background-color: var(--secondary);
+    color: var(--primary);
+
+    box-shadow: 0px 3px 10px var(--secondary-shadow);
+    padding: 0 15px;
 }
 
 /***** Journey ******/
 
 .journey-container {
-
+    background-color: var(--secondary);
+    width: 80%;
 }
 
 .journey-destination {
-
+    margin-bottom: 0;
+    padding: 10px 50px;
+    
+    font-size: 40px;
+    color: var(--primary);
 }
 
 .journey-day {
+    margin: 0;
+    margin-bottom: 3em;
 
-}
-
-.journey-info {
-
+    font-size: 24px;
+    color: var(--primary);
 }

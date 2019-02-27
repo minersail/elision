@@ -1,23 +1,72 @@
 import * as React from "react";
+import { Migrant, MigrantState } from "../utils/types";
 
 interface MainStreetProps {
     info: string;
+    migrants: Migrant[];
+
     switchScreen: (screenId: number) => void;
+    acceptRecruit: (migrantID: number) => void;
 }
 
-function MainStreet(props: MainStreetProps) {
-	return (
-        <div className="city-container">
-            <h1 className="city-title">Main Street</h1>
-            <div className="city-info-container">
-                <div className="city-info">{ props.info }</div>
-                <div className="city-info-choice-container">
-                    <button className="city-info-choice">Look around</button>
-                    <button className="city-info-choice" onClick={ () => { props.switchScreen(0); } }>Return to the city</button>
+interface MainStreetState {
+    showRecruits: boolean;
+    selectedRecruit: Migrant | null;
+}
+
+class MainStreet extends React.Component<MainStreetProps, MainStreetState> {
+    public constructor(props: MainStreetProps) {
+        super(props);
+        this.state = {
+            showRecruits: false,
+            selectedRecruit: null,
+        }
+    }
+
+    public render() {
+        const selected = this.state.selectedRecruit;
+
+        return (
+            <div className="city-container">
+                <h1 className="city-title">Main Street</h1>
+                <div className="info-container">
+                    {
+                        selected === null &&
+                        [<div className="info" key="0">{ this.props.info }</div>,
+                        <div className="info-choice-container" key="1">
+                            <button className="info-choice" onClick={ () => { this.setState({...this.state, showRecruits: true}); } }>Look around</button>
+                            <button className="info-choice" onClick={ () => { this.props.switchScreen(0); } }>Return to the city</button>
+                        </div>]
+                    }                    
+                    {
+                        selected !== null &&
+                        [<div className="info" key="0">You approach { selected.name }, and discreetly ask if migrant services are needed. After 
+                        a short conversation, you gauge that { selected.name } has enough interest to consider your proposal.</div>,
+                        <div className="info-choice-container" key="1">
+                            <button className="info-choice" onClick={ () => { this.props.acceptRecruit(selected.id) } }>Accept { selected.name }</button>
+                            <button className="info-choice" onClick={ () => { this.props.switchScreen(0); } }>Return to the city</button>
+                        </div>]
+                    }
                 </div>
+                    
+                {
+                    this.state.showRecruits && 
+                    this.props.migrants.filter((migrant) => migrant.state === MigrantState.Open).map((migrant) => 
+                    (
+                        <div className="recruit-container" key={ migrant.id }>
+                            <div className="recruit">
+                                <h3>{ migrant.name }</h3>
+                                <p>Nationality is { migrant.nationality }</p>
+                                <p>Speaks { migrant.languages.join(", ") }</p>
+                                <p>{ migrant.shortBio }</p>
+                                <button onClick={ () => { this.setState({...this.state, selectedRecruit: migrant}); } }>Select</button>
+                            </div>
+                        </div>
+                    ))
+                }
             </div>
-        </div>
-    );
+        );
+    }
 }
 
 export default MainStreet;
