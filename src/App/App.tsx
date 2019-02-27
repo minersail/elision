@@ -4,6 +4,7 @@ import './App.css';
 import { JourneyAction, JourneyData, Migrant, MigrantState } from './utils/types';
 import DialogueBox from './components/DialogueBox';
 import Sidebar from './components/Sidebar';
+import Intro from './components/Intro';
 import City from './components/City';
 import Journey from './components/Journey';
 import MainStreet from './components/MainStreet';
@@ -37,32 +38,33 @@ class App extends Component<AppProps> {
                 { 
                     this.props.demoType === 1 &&
                     
-                        (this.props.gameScreen === 0 &&
-                        <div className="game-container">
-                            <Sidebar name="Ibrahim" reputation="anonymous, unvetted" cash={ this.props.cash } inverted={ false } />
+                    this.props.gameScreen === -1 &&
+                    <Intro switchScreen={ this.props.switchScreen } />
+
+                    ||
+                    
+                    <div className="game-container">
+                        <Sidebar name="Ibrahim" reputation="anonymous, unvetted" cash={ this.props.cash } inverted={ this.props.gameScreen === 2 } />                  
+                        {                         
+                            this.props.gameScreen === 0 &&
                             <City name="Izmir" switchScreen={ this.props.switchScreen } 
                             hasSelectedMigrants={ this.props.migrants.filter((m) => m.state === MigrantState.Selected).length > 0 }/>
-                        </div>)
 
-                        ||
+                            ||
 
-                        (this.props.gameScreen === 1 &&
-                        <div className="game-container">
-                            <Sidebar name="Ibrahim" reputation="anonymous, unvetted" cash={ this.props.cash } inverted={ false } />
+                            this.props.gameScreen === 1 &&
                             <MainStreet info="Izmir's streets are lined with bistros, shops, and hotels. Around
                             a well-known cafe, you spot a few figures who act like they don't quite belong. Perhaps
                             they are just from out of town, but it wouldn't hurt to see if anyone's looking for a guide." 
                             migrants={ this.props.migrants }
                             switchScreen={ this.props.switchScreen } acceptRecruit={ this.props.acceptRecruit } />
-                        </div>)
 
-                        ||
+                            ||
 
-                        (this.props.gameScreen === 2 &&
-                        <div className="game-container">
-                            <Sidebar name="Ibrahim" reputation="anonymous, unvetted" cash={ this.props.cash } inverted={ true } />
+                            this.props.gameScreen === 2 &&
                             <Journey destination="Bab-el-Hawa" chooseOption={ this.props.chooseJourneyOption } data={ this.props.journeyData } />
-                        </div>)
+                        }
+                    </div>
                     }
             </div>
         );

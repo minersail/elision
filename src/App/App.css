@@ -89,7 +89,49 @@ button:focus {
     }
 }
 
-/*******************/
+/***** Intro *****/
+
+.intro-container {
+    height: 100vh;
+    background-color: var(--secondary);
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.intro {
+    width: 60%;
+    height: 60%;
+    margin: auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.intro h1, p {
+    color: var(--primary);
+    margin: 0;
+}
+
+.intro h1 {
+    font-size: 72px;
+}
+
+.intro p {
+    font-size: 20px;
+}
+
+.intro button {
+    background-color: var(--primary);
+    color: var(--secondary);
+
+    padding: 20px;
+    font-size: 24px;
+}
+
+/***** Game *****/
+
 .game-container {
     display: flex;
     flex-direction: row;

@@ -7,7 +7,7 @@ const initialState = {
     dialogue: ["Click", "The", "Arrows", "To", "Progress", "Through", "This", "Linear", "Dialogue", "That", "Resets"],
     index: 0,
     demoType: 1,
-    gameScreen: 0,
+    gameScreen: -1,
     cash: 1000,
     migrants: [
         {
