@@ -8,22 +8,6 @@
 
     --secondary-faded: #4a452b;
     --secondary-shadow: #F0E6B166;
-
-    /* --primary: #332F29;
-    --secondary: #CC3910;
-    --tertiary: #F1F2C0;
-    --money: #8FA68E;
-
-    --secondary-faded: #d0875c;
-    --secondary-shadow: #CC391033; */
-
-    /* --primary: #63674A;
-    --secondary: #EDC5B5;
-    --tertiary: #907465;
-    --money: #63674A;
-
-    --secondary-faded: #a89680;
-    --secondary-shadow: #EDC5B533; */
 }
 
 button  {
@@ -109,7 +93,7 @@ button:focus {
     justify-content: space-between;
 }
 
-.intro h1, p {
+.intro h1, .intro p {
     color: var(--primary);
     margin: 0;
 }

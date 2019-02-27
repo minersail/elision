@@ -60,6 +60,92 @@ const initialState = {
                             actionType: JourneyActionType.Continue as JourneyActionType.Continue,
                         }
                     }
+                ],
+            },
+            {                
+                text: "By night, you reach a privately owned shore and embark. Waseem pays you \
+                    the money he owes you, and the owner of the private land takes his agreed cut.",
+                options: [
+                    {
+                        choiceText: "Bid Waseem farewell.",
+                        action: {
+                            actionType: JourneyActionType.ModifyCash as JourneyActionType.ModifyCash,
+                            cash: 1000,
+                        }
+                    },
+                ]
+            },            
+            {                
+                text: "Hello! Thank you for participating in this user feedback experience. This journey \
+                    is not entirely accurate (for one, Izmir is a 90 minute ferry ride from Athens), and \
+                    will be replaced by more accurate and dynamic journies later.",
+                options: [
+                    ContinueOption,
+                ]
+            },        
+            {                
+                text: "This project is currently in a state where I would like to recieve feedback for the \
+                    overall idea and presentation. Following will be five questions - if you can email your \
+                    answers to jkwoo1234@gmail.com, it would be greatly appreciated.",
+                options: [
+                    ContinueOption,
+                ]
+            },        
+            {                
+                text: "1. Does the intro screen give you enough of a background to start the game? What do \
+                    you think was missing that could have contributed to your understanding of what the project \
+                    was and how it worked? ",
+                options: [
+                    ContinueOption,
+                ]
+            },        
+            {                
+                text: "2. At what points was the game confusing or too complicated? Too simple? Keep in mind \
+                    that in the future many more features will be added, such as factoring in real life events \
+                    (Operation Mare Nostrum), more members and components of the smuggling industry, etc. to better \
+                    investigate the geopolitical, social, economic, and historical factors behind mass migration.",
+                options: [
+                    ContinueOption,
+                ]
+            },        
+            {                
+                text: "3. Was the user interface easy to use? Was it obvious what had to be done next at every \
+                    stage? Any complaints about the visuals?",
+                options: [
+                    ContinueOption,
+                ]
+            },        
+            {                
+                text: "4. The centerpiece of this project is a discussion about how media should represent complex \
+                    topics. If it is too complicated, it is inaccessible to the average viewer, but if it is too \
+                    simple, it risks trivializing important issues experienced by real people. Do you think games \
+                    can do a complex topic justice? Do you think, given time to develop, this game can do the complex \
+                    topic of immigration justice?",
+                options: [
+                    ContinueOption,
+                ]
+            },        
+            {                
+                text: "5. For you, do you think this game would be an engaging experience? Do you think this game would \
+                    be an educational experience? If so, why? If not, what do you think could be done to make it a \
+                    better experience?",
+                options: [
+                    ContinueOption,
+                ]
+            },        
+            {                
+                text: "6 (optional). If you have personal experience with what it is like to immigrate, what about \
+                    your experiences do you wish was told more often? Is there any part of your experience that is \
+                    often unrepresented or misrepresented in media?",
+                options: [
+                    ContinueOption,
+                ]
+            },        
+            {                
+                text: "Thank you for participating in my capstone user feedback survey! Friendly reminder that my \
+                    email is jkwoo1234@gmail.com. If you accidentally skipped any questions, refreshing the page will \
+                    reset the application.",
+                options: [
                 ]
             }
         ],
