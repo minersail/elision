@@ -5,7 +5,6 @@ interface IntroProps {
 }
 
 function Intro(props: IntroProps) {
-
 	return (
         <div className="intro-container">
             <div className="intro">
