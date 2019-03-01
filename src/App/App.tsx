@@ -62,7 +62,7 @@ class App extends Component<AppProps> {
                             ||
 
                             this.props.gameScreen === 2 &&
-                            <Journey destination="Bab-el-Hawa" chooseOption={ this.props.chooseJourneyOption } data={ this.props.journeyData } />
+                            <Journey destination="Athens" chooseOption={ this.props.chooseJourneyOption } data={ this.props.journeyData } />
                         }
                     </div>
                     }
