@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from '../logo.svg';
 import './App.css';
-import { JourneyAction, JourneyData, Migrant, MigrantState } from './utils/types';
+import { JourneyAction, Migrant, MigrantState, JourneyEvent } from './utils/types';
 import DialogueBox from './components/DialogueBox';
 import Sidebar from './components/Sidebar';
 import Intro from './components/Intro';
@@ -9,6 +9,7 @@ import City from './components/City';
 import Journey from './components/Journey';
 import MainStreet from './components/MainStreet';
 
+// TODO: Make Journey its own container component
 interface AppProps {
     dialogue: string;
     demoType: number;
@@ -16,12 +17,14 @@ interface AppProps {
 
     cash: number;
     migrants: Migrant[];
-    journeyData: JourneyData;
+    dayEvents: JourneyEvent[];
+    day: number;
 
     nextDialogue: () => void;
     switchScreen: (screenId: number) => void;
-    acceptRecruit: (migrantID: number) => void;
-    chooseJourneyOption: (action: JourneyAction) => void;
+    acceptRecruit: (migrantID: number) => void;   
+	startJourney: () => void;
+	processDialogue: (journeyActions: JourneyAction[]) => void;
 }
 
 class App extends Component<AppProps> {
@@ -47,8 +50,8 @@ class App extends Component<AppProps> {
                         <Sidebar name="Ibrahim" reputation="anonymous, unvetted" cash={ this.props.cash } inverted={ this.props.gameScreen === 2 } />                  
                         {                         
                             this.props.gameScreen === 0 &&
-                            <City name="Izmir" switchScreen={ this.props.switchScreen } 
-                            hasSelectedMigrants={ this.props.migrants.filter((m) => m.state === MigrantState.Selected).length > 0 }/>
+                            <City name="Izmir" switchScreen={ this.props.switchScreen } startJourney={ this.props.startJourney }
+                            hasSelectedMigrants={ this.props.migrants.filter((m) => m.state === MigrantState.Journeying).length > 0 } />
 
                             ||
 
@@ -62,7 +65,8 @@ class App extends Component<AppProps> {
                             ||
 
                             this.props.gameScreen === 2 &&
-                            <Journey destination="Athens" chooseOption={ this.props.chooseJourneyOption } data={ this.props.journeyData } />
+                            <Journey destination="Athens" day={ this.props.day } processDialogue={ this.props.processDialogue } 
+                            dialogue={ this.props.dayEvents[0].dialogues[this.props.dayEvents[0].currentDialogueID] } />
                         }
                     </div>
                     }

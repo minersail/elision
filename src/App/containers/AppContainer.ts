@@ -9,7 +9,8 @@ const mapStateToProps = (state: State) => ({
 	gameScreen: state.gameScreen,
 	cash: state.cash,
 	migrants: state.migrants,
-	journeyData: state.journeyData,
+	dayEvents: state.dayEvents,
+	day: state.day,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -22,8 +23,11 @@ const mapDispatchToProps = (dispatch: any) => ({
 	acceptRecruit: (migrantID: number) => {
 		dispatch(actions.acceptRecruit(migrantID));
 	},
-	chooseJourneyOption: (action: JourneyAction) => {
-		dispatch(actions.chooseJourneyOption(action));
+	startJourney: () => {
+		dispatch(actions.startJourney());
+	},
+	processDialogue: (journeyActions: JourneyAction[]) => {
+		dispatch(actions.processDialogue(journeyActions));
 	},
 });
 

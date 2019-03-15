@@ -1,28 +1,27 @@
 import * as React from "react";
-import { JourneyAction, JourneyData, JourneyDay } from "../utils/types";
+import { JourneyAction, JourneyDialogue, } from "../utils/types";
 
 interface JourneyProps {
     destination: string;
-    data: JourneyData;
+    day: number;
+
+    dialogue: JourneyDialogue;
     
-    chooseOption: (action: JourneyAction) => void;
+    processDialogue: (actions: JourneyAction[]) => void;
 }
 
 function Journey(props: JourneyProps) {
-    // TODO: Change props to only include day
-    const day: JourneyDay = props.data.days[props.data.index];
-
 	return (
         <div className="journey-container">
             <h1 className="journey-destination">Journey to { props.destination }</h1>
-            <h3 className="journey-day">Day { props.data.index }</h3>
+            <h3 className="journey-day">Day { props.day }</h3>
             <div className="info-container inverted">
-                <div className="info">{ day.text }</div>
+                <div className="info">{ props.dialogue.text }</div>
                 <div className="info-choice-container">
                     {
-                        day.options.map((option, index) => 
+                        props.dialogue.options.map((option, index) => 
                             (<button className="info-choice" key={ index } 
-                            onClick={ () => { props.chooseOption(option.action) } }>{ option.choiceText }</button>)
+                            onClick={ () => { props.processDialogue(option.actions) } }>{ option.choiceText }</button>)
                         )
                     }
                 </div>

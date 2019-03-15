@@ -5,6 +5,7 @@ interface CityProps {
     hasSelectedMigrants: boolean;
 
     switchScreen: (screenId: number) => void;
+    startJourney: () => void;
 }
 
 function City(props: CityProps) {
@@ -15,7 +16,7 @@ function City(props: CityProps) {
                 <button onClick={ () => { props.switchScreen(1); } }>Main Street</button>
                 {
                     props.hasSelectedMigrants &&
-                    <button onClick={ () => { props.switchScreen(2); } }>Journey</button>
+                    <button onClick={ () => { props.startJourney(); } }>Journey</button>
                 }
             </div>
         </div>

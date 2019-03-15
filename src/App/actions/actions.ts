@@ -8,6 +8,7 @@ export const switchScreen = createAction("actions/game/SWITCHSCREEN", (resolve) 
 export const acceptRecruit = createAction("actions/mainstreet/ACCEPTRECRUIT", (resolve) => {
     return (migrantID: number) => resolve(migrantID);
 });
-export const chooseJourneyOption = createAction("actions/journey/CHOOSEOPTION", (resolve) => {
-    return (action: JourneyAction) => resolve(action);
+export const startJourney = createAction("actions/journey/STARTJOURNEY");
+export const processDialogue = createAction("actions/journey/PROCESSDIALOGUE", (resolve) => {
+    return (actions: JourneyAction[]) => resolve(actions);
 });
