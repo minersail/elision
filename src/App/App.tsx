@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import logo from '../logo.svg';
 import './App.css';
-import { JourneyAction, Migrant, MigrantState, JourneyEvent } from './utils/types';
-import DialogueBox from './components/DialogueBox';
+import { JourneyAction, Migrant, MigrantState, JourneyEvent, JourneyData } from './utils/types';
 import Sidebar from './components/Sidebar';
 import Intro from './components/Intro';
 import City from './components/City';
@@ -11,16 +9,15 @@ import MainStreet from './components/MainStreet';
 
 // TODO: Make Journey its own container component
 interface AppProps {
-    dialogue: string;
-    demoType: number;
     gameScreen: number;
 
     cash: number;
     migrants: Migrant[];
+
     dayEvents: JourneyEvent[];
     day: number;
+    journeyData: JourneyData;
 
-    nextDialogue: () => void;
     switchScreen: (screenId: number) => void;
     acceptRecruit: (migrantID: number) => void;   
 	startJourney: () => void;
@@ -31,16 +28,7 @@ class App extends Component<AppProps> {
     public render() {
         return (
             <div className="App">
-                { 
-                    this.props.demoType === 0 &&
-                    <header className="App-header">
-                        <img src={logo} className="App-logo" alt="logo" />
-                        <DialogueBox dialogue={this.props.dialogue} next={this.props.nextDialogue} />
-                    </header>
-                }
-                { 
-                    this.props.demoType === 1 &&
-                    
+                {                    
                     this.props.gameScreen === -1 &&
                     <Intro switchScreen={ this.props.switchScreen } />
 
@@ -65,11 +53,14 @@ class App extends Component<AppProps> {
                             ||
 
                             this.props.gameScreen === 2 &&
-                            <Journey destination="Athens" day={ this.props.day } processDialogue={ this.props.processDialogue } 
+                            <Journey destination={ this.props.journeyData.forward ? 
+                                this.props.journeyData.currentRoute.toCity : this.props.journeyData.currentRoute.fromCity } 
+                            day={ this.props.day } distRemaining={ this.props.journeyData.currentRoute.distance - this.props.journeyData.distanceTravelled } 
+                            processDialogue={ this.props.processDialogue } 
                             dialogue={ this.props.dayEvents[0].dialogues[this.props.dayEvents[0].currentDialogueID] } />
                         }
                     </div>
-                    }
+                }
             </div>
         );
     }

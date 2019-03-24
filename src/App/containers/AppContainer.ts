@@ -4,19 +4,15 @@ import App from '../App';
 import * as actions from '../actions/actions';
 
 const mapStateToProps = (state: State) => ({
-	dialogue: state.dialogue[state.index],
-	demoType: state.demoType,
 	gameScreen: state.gameScreen,
 	cash: state.cash,
 	migrants: state.migrants,
 	dayEvents: state.dayEvents,
 	day: state.day,
+	journeyData: state.journeyData,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-	nextDialogue: () => {
-		dispatch(actions.nextDialogue());
-	},
 	switchScreen: (screenId: number) => {
 		dispatch(actions.switchScreen(screenId));
 	},

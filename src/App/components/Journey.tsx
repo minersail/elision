@@ -4,6 +4,7 @@ import { JourneyAction, JourneyDialogue, } from "../utils/types";
 interface JourneyProps {
     destination: string;
     day: number;
+    distRemaining: number;
 
     dialogue: JourneyDialogue;
     
@@ -13,7 +14,7 @@ interface JourneyProps {
 function Journey(props: JourneyProps) {
 	return (
         <div className="journey-container">
-            <h1 className="journey-destination">Journey to { props.destination }</h1>
+            <h1 className="journey-destination">{ props.distRemaining }km to { props.destination }</h1>
             <h3 className="journey-day">Day { props.day }</h3>
             <div className="info-container inverted">
                 <div className="info">{ props.dialogue.text }</div>

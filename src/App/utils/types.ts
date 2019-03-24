@@ -1,7 +1,4 @@
 export interface State {
-    dialogue: string[];
-    demoType: number;
-    index: number;
     gameScreen: number;
 
     cash: number;
@@ -10,6 +7,11 @@ export interface State {
     pools: EventPoolManager;
     dayEvents: JourneyEvent[];
     day: number;
+
+    cities: CityData[];
+    routes: RouteData[];
+
+    journeyData: JourneyData;
 }
 
 export interface Migrant {
@@ -27,19 +29,38 @@ export enum MigrantState {
     Open, Journeying, Succeeded, Failed
 }
 
-/* Journey data structures */
+// Graph nodes
+export interface CityData {
+    name: string;
+    // Will have more stuff later - like shops, etc.
+}
+
+// Graph edges (two-way, zones go from fromCity to toCity)
 export interface RouteData {
+    fromCity: string;
+    toCity: string;
     zones: Zone[];
+    distance: number;
+}
+
+/* ********************
+Start journey data structures
+******************** */
+export interface JourneyData { // Tracks the current journey
+    currentRoute: RouteData;
+    forward: boolean; // Going from fromCity to toCity or other way around
+    distanceTravelled: number; // In km
 }
 
 export interface Zone {
-    zoneStart: number;
-    zoneEnd: number;
     type: ZoneType;
+    zoneStart: number; // In km
+    zoneEnd: number;
+    chance: number; // In decimal percentage
 }
 
 export enum ZoneType {
-    Start, End, Bribery, Bandit
+    Bribery, Bandit, NaturalDisaster
 }
 
 export interface EventPoolManager {
@@ -97,3 +118,7 @@ export const createEndDialogue = (text: string): JourneyOption => ({
         actionType: JourneyActionType.EndDialogue,
     }],
 });
+
+/* ********************
+End journey data structures
+******************** */
