@@ -1,7 +1,6 @@
 import { ActionType, getType } from 'typesafe-actions';
-import { MigrantState, State, ZoneType } from '../utils/types';
+import { MigrantState, State, ZoneType, CityHubType } from '../utils/types';
 import * as actions from '../actions/actions';
-import { advanceDialogue } from './dialogue';
 import { startJourney, processDialogue } from './journeyReducers';
 import idleEvents from './state/idleEvents';
 import migrantEvents from './state/migrantEvents';
@@ -14,11 +13,29 @@ const initialState: State = {
     migrants: [
         {
             id: 0,
-            name: "Waseem",
-            nationality: "Syrian",
-            languages: ["Aramaic", "Arabic"],
-            shortBio: "A Christian pacifist, Waseem is fleeing the Syrian civil war.",
-            bio: "Waseem fled after military service...finish bio later",
+            name: "Ojeomokhai",
+            nationality: "Nigerian",
+            languages: ["English", "Yoruba"],
+            shortBio: "Ojeomokhai is a 33 year old engineer seeking a better job market for his skill set.",
+            bio: "",
+            state: MigrantState.Open,
+        },        
+        {
+            id: 1,
+            name: "Gloria",
+            nationality: "Nigerien",
+            languages: ["Hausa", "French"],
+            shortBio: "A quiet, ambitious woman, Gloria is pursuing higher education in Europe to become a doctor.",
+            bio: "",
+            state: MigrantState.Open,
+        },        
+        {
+            id: 2,
+            name: "Calvin",
+            nationality: "Cameroonian",
+            languages: ["French"],
+            shortBio: "Calvin is looking to make it to Spain, where his brother is.",
+            bio: "",
             state: MigrantState.Open,
         }
     ],
@@ -27,15 +44,18 @@ const initialState: State = {
         zonePools: zoneEvents,
         idlePool: idleEvents,
     },
-    dayEvents: [],
-    day: 0,
     cities,
     routes,
     journeyData: {
         currentRoute: routes[0],
-        forward: false,
+        forward: true,
         distanceTravelled: 0,
-    }
+        dayEvents: [],
+        day: 0,
+        dayTime: "morning",
+    },
+    currentCity: cities[0],
+    currentCityHub: null,
 };
 
 function reducer(state: State = initialState, action: Action): State {
@@ -46,6 +66,12 @@ function reducer(state: State = initialState, action: Action): State {
                 ...state,
                 gameScreen: action.payload,
             };
+        case getType(actions.switchHub):
+            return {
+                ...state,
+                currentCityHub: action.payload === CityHubType.None ? null : 
+                    state.currentCity.hubs.find((hub) => hub !== null && hub.type === action.payload) || state.currentCity.hubs[0],
+            };
         case getType(actions.acceptRecruit):
             return {
                 ...state,
@@ -55,7 +81,7 @@ function reducer(state: State = initialState, action: Action): State {
                 })
             };
         case getType(actions.startJourney):
-            return startJourney(state);
+            return startJourney(state, action.payload);
         case getType(actions.processDialogue):
             return processDialogue(state, action.payload);
         default:

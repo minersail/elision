@@ -1,26 +1,58 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import * as actions from './actions/actions';
 import './App.css';
-import { JourneyAction, Migrant, MigrantState, JourneyEvent, JourneyData } from './utils/types';
+import { JourneyAction, Migrant, MigrantState, State, JourneyData, CityData, CityHubType, CityHub } from './utils/types';
 import Sidebar from './components/Sidebar';
 import Intro from './components/Intro';
 import City from './components/City';
 import Journey from './components/Journey';
-import MainStreet from './components/MainStreet';
 
-// TODO: Make Journey its own container component
+const mapStateToProps = (state: State) => ({
+    gameScreen: state.gameScreen,
+    
+	cash: state.cash,
+    migrants: state.migrants,
+    cities: state.cities,
+
+    journeyData: state.journeyData,
+    currentCity: state.currentCity,
+    currentCityHub: state.currentCityHub,
+});
+
+const mapDispatchToProps = (dispatch: any) => ({
+	switchScreen: (screenId: number) => {
+		dispatch(actions.switchScreen(screenId));
+    },
+    switchHub: (hubType: CityHubType) => {
+        dispatch(actions.switchHub(hubType));
+    },
+	acceptRecruit: (migrantID: number) => {
+		dispatch(actions.acceptRecruit(migrantID));
+	},
+	startJourney: (destination: string) => {
+		dispatch(actions.startJourney(destination));
+	},
+	processDialogue: (journeyActions: JourneyAction[]) => {
+		dispatch(actions.processDialogue(journeyActions));
+	},
+});
+
 interface AppProps {
     gameScreen: number;
 
     cash: number;
     migrants: Migrant[];
+    cities: CityData[];
 
-    dayEvents: JourneyEvent[];
-    day: number;
     journeyData: JourneyData;
+    currentCity: CityData;
+    currentCityHub: CityHub;
 
     switchScreen: (screenId: number) => void;
+    switchHub: (hubType: CityHubType) => void;
     acceptRecruit: (migrantID: number) => void;   
-	startJourney: () => void;
+	startJourney: (destination: string) => void;
 	processDialogue: (journeyActions: JourneyAction[]) => void;
 }
 
@@ -35,29 +67,22 @@ class App extends Component<AppProps> {
                     ||
                     
                     <div className="game-container">
-                        <Sidebar name="Ibrahim" reputation="anonymous, unvetted" cash={ this.props.cash } inverted={ this.props.gameScreen === 2 } />                  
+                        <Sidebar name="Ibrahim" reputation="anonymous, unvetted" cash={ this.props.cash } inverted={ this.props.gameScreen === 1 } 
+                        activeMigrants={ this.props.migrants.filter((migrant) => migrant.state === MigrantState.Journeying) } />                  
                         {                         
                             this.props.gameScreen === 0 &&
-                            <City name="Izmir" switchScreen={ this.props.switchScreen } startJourney={ this.props.startJourney }
-                            hasSelectedMigrants={ this.props.migrants.filter((m) => m.state === MigrantState.Journeying).length > 0 } />
+                            <City city={ this.props.currentCity } currentHub={ this.props.currentCityHub } startJourney={ this.props.startJourney }
+                            hasSelectedMigrants={ this.props.migrants.filter((m) => m.state === MigrantState.Journeying).length > 0 }
+                            migrants={ this.props.migrants } acceptRecruit={ this.props.acceptRecruit } switchHub={ this.props.switchHub } />
 
                             ||
 
                             this.props.gameScreen === 1 &&
-                            <MainStreet info="Izmir's streets are lined with bistros, shops, and hotels. Around
-                            a well-known cafe, you spot a few figures who act like they don't quite belong. Perhaps
-                            they are just from out of town, but it wouldn't hurt to see if anyone's looking for a guide." 
-                            migrants={ this.props.migrants }
-                            switchScreen={ this.props.switchScreen } acceptRecruit={ this.props.acceptRecruit } />
-
-                            ||
-
-                            this.props.gameScreen === 2 &&
                             <Journey destination={ this.props.journeyData.forward ? 
                                 this.props.journeyData.currentRoute.toCity : this.props.journeyData.currentRoute.fromCity } 
-                            day={ this.props.day } distRemaining={ this.props.journeyData.currentRoute.distance - this.props.journeyData.distanceTravelled } 
+                            day={ this.props.journeyData.day } distRemaining={ this.props.journeyData.currentRoute.distance - this.props.journeyData.distanceTravelled } 
                             processDialogue={ this.props.processDialogue } 
-                            dialogue={ this.props.dayEvents[0].dialogues[this.props.dayEvents[0].currentDialogueID] } />
+                            dialogue={ this.props.journeyData.dayEvents[0].dialogues[this.props.journeyData.dayEvents[0].currentDialogueID] } />
                         }
                     </div>
                 }
@@ -66,4 +91,4 @@ class App extends Component<AppProps> {
     }
 }
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);

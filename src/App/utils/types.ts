@@ -5,13 +5,14 @@ export interface State {
     migrants: Migrant[];
 
     pools: EventPoolManager;
-    dayEvents: JourneyEvent[];
-    day: number;
 
     cities: CityData[];
     routes: RouteData[];
 
     journeyData: JourneyData;
+    
+    currentCity: CityData;
+    currentCityHub: CityHub;
 }
 
 export interface Migrant {
@@ -29,10 +30,24 @@ export enum MigrantState {
     Open, Journeying, Succeeded, Failed
 }
 
+export enum CityHubType {
+    None, Recruitment, Journey
+}
+
+export type CityHub = {
+    name: string;
+    type: CityHubType.Recruitment;
+    migrants: number[]; // IDs
+} | {
+    name: string;
+    type: CityHubType.Journey;
+    destinations: string[]; // Names
+} | null // Null for main screen (not in hub)
+
 // Graph nodes
 export interface CityData {
     name: string;
-    // Will have more stuff later - like shops, etc.
+    hubs: CityHub[];
 }
 
 // Graph edges (two-way, zones go from fromCity to toCity)
@@ -50,6 +65,10 @@ export interface JourneyData { // Tracks the current journey
     currentRoute: RouteData;
     forward: boolean; // Going from fromCity to toCity or other way around
     distanceTravelled: number; // In km
+
+    dayEvents: JourneyEvent[];
+    day: number;
+    dayTime: "morning" | "afternoon" | "night";
 }
 
 export interface Zone {

@@ -7,37 +7,14 @@ const idleEvents: EventPool = {
             dialogues: [
                 {
                     id: 0,
-                    text: "Wow you found $20",
+                    text: "The day is unevenful, spent quietly driving. Perhaps it is a blessing.",
                     options: [
                         {
-                            choiceText: "Wow thanks",
+                            choiceText: "Continue onwards.",
                             actions: [
                                 {
                                     actionType: JourneyActionType.ModifyCash,
                                     cash: 20,
-                                },
-                                {
-                                    actionType: JourneyActionType.EndDialogue,
-                                }
-                            ],
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            currentDialogueID: 0,
-            dialogues: [
-                {
-                    id: 0,
-                    text: "Uh oh you lost $20",
-                    options: [
-                        {
-                            choiceText: "What no",
-                            actions: [
-                                {
-                                    actionType: JourneyActionType.ModifyCash,
-                                    cash: -20,
                                 },
                                 {
                                     actionType: JourneyActionType.EndDialogue,

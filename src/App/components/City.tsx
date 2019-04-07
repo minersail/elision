@@ -1,25 +1,49 @@
 import * as React from "react";
+import { CityData, CityHubType, Migrant, CityHub } from "../utils/types";
+import RecruitmentHub from "./RecruitmentHub";
+import JourneyHub from "./JourneyHub";
 
 interface CityProps {
-    name: string;
+    city: CityData;
+    currentHub: CityHub;
     hasSelectedMigrants: boolean;
+    migrants: Migrant[];
 
-    switchScreen: (screenId: number) => void;
-    startJourney: () => void;
+    switchHub: (hubType: CityHubType) => void;
+    acceptRecruit: (migrantId: number) => void;
+    startJourney: (destination: string) => void;
 }
 
 function City(props: CityProps) {
 	return (
-        <div className="city-container">
-            <h1 className="city-title">{ props.name }</h1>
-            <div className="city-grid">
-                <button onClick={ () => { props.switchScreen(1); } }>Main Street</button>
+        <>
+        {
+            props.currentHub === null &&
+            <div className="city-container">            
+                <h1 className="city-title">{ props.city.name }</h1>
+                <div className="city-grid"> 
                 {
-                    props.hasSelectedMigrants &&
-                    <button onClick={ () => { props.startJourney(); } }>Journey</button>
+                    props.city.hubs.map((hub, i) => hub !== null && (
+                        <button onClick={ () => { props.switchHub(hub.type); } } key={ i }>{ hub.name }</button>
+                    ))
                 }
+                </div>
             </div>
-        </div>
+
+            ||
+
+            props.currentHub !== null && props.currentHub.type === CityHubType.Recruitment &&    
+            <RecruitmentHub hubName={ props.currentHub.name } switchHub={ props.switchHub } acceptRecruit={ props.acceptRecruit }
+            migrants={ props.migrants.filter((migrant) => props.currentHub !== null && 
+                props.currentHub.type === CityHubType.Recruitment && props.currentHub.migrants.includes(migrant.id)) } />            
+
+            ||
+
+            props.currentHub !== null && props.currentHub.type === CityHubType.Journey &&    
+            <JourneyHub hubName={ props.currentHub.name } switchHub={ props.switchHub } startJourney={ props.startJourney } 
+            destinations={ props.currentHub.destinations } />
+        }
+        </>
     );
 }
 
