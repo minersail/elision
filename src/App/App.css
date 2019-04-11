@@ -147,9 +147,42 @@ button:focus {
     font-size: 36px;
 
     margin-top: 20px;
-    margin-bottom: auto;
 
     position: relative;
+}
+
+.sidebar-resources {
+    color: var(--primary);
+    margin-top: 50px;
+    margin-bottom: auto;
+}
+
+.sidebar-resources label {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.inverted .sidebar-resources label {
+    font-weight: bold;
+    font-size: 20px;
+    color: var(--secondary);
+}
+
+.resource-bg {
+    position: relative;
+    background-color: #777777;
+
+    height: 25px;
+    width: auto;
+
+    margin: 5px 50px 20px 50px;
+}
+
+.resource-bar {    
+    background-color: var(--money);
+    height: 25px;
+
+    float: left;
 }
 
 .sidebar-notebook-container {
@@ -306,6 +339,7 @@ button:focus {
 
 .info-choice:hover {
     border: 1px solid transparent;
+    box-shadow: 0px 3px 15px var(--primary-shadow);
 }
 
 .info-choice:active {
@@ -391,8 +425,21 @@ button:focus {
 /***** Journey ******/
 
 .journey-container {
-    background-color: var(--secondary);
     width: 80%;
+
+    transition: background-color 1s;
+}
+
+.journey-container.morning {    
+    background-color: var(--secondary);
+}
+
+.journey-container.afternoon {
+    background-color: #AfA881;
+}
+
+.journey-container.night {
+    background-color: #6E6951;
 }
 
 .journey-destination {
@@ -409,4 +456,26 @@ button:focus {
 
     font-size: 24px;
     color: var(--primary);
+}
+
+/***** Shop *****/
+.shop-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    width: 60%;
+    margin: auto;
+    margin-top: 10%;
+}
+
+.shop-container button {
+    padding: 15px 0px;
+    width: 40%;
+
+    font-size: 28px;
+    
+    background-color: var(--secondary);
+    color: var(--primary);
+    box-shadow: 0px 3px 10px var(--secondary-shadow);
 }

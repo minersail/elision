@@ -7,20 +7,21 @@ const idleEvents: EventPool = {
             dialogues: [
                 {
                     id: 0,
-                    text: "The day is unevenful, spent quietly driving. Perhaps it is a blessing.",
+                    text: "The day passes by unevenfully, spent quietly driving. Perhaps it is a blessing.",
                     options: [
-                        {
-                            choiceText: "Continue onwards.",
-                            actions: [
-                                {
-                                    actionType: JourneyActionType.ModifyCash,
-                                    cash: 20,
-                                },
-                                {
-                                    actionType: JourneyActionType.EndDialogue,
-                                }
-                            ],
-                        }
+                        createEndDialogue("Continue onwards."),
+                    ]
+                }
+            ]
+        },
+        {
+            currentDialogueID: 0,
+            dialogues: [
+                {
+                    id: 0,
+                    text: "The ripples of the dunes look almost serene, betraying its danger and the certain death of any who are lost.",
+                    options: [
+                        createEndDialogue("Continue onwards."),
                     ]
                 }
             ]

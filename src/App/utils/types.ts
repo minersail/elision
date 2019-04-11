@@ -3,6 +3,7 @@ export interface State {
 
     cash: number;
     migrants: Migrant[];
+    resources: ResourceUnit[];
 
     pools: EventPoolManager;
 
@@ -22,6 +23,7 @@ export interface Migrant {
     languages: string[];
     shortBio: string;
     bio: string;
+    money: number;
 
     state: MigrantState;
 }
@@ -31,7 +33,7 @@ export enum MigrantState {
 }
 
 export enum CityHubType {
-    None, Recruitment, Journey
+    None, Recruitment, Journey, Shop
 }
 
 export type CityHub = {
@@ -42,6 +44,11 @@ export type CityHub = {
     name: string;
     type: CityHubType.Journey;
     destinations: string[]; // Names
+} | {
+    name: string;
+    type: CityHubType.Shop;
+    resources: ResourceUnit[];
+    prices: Map<number, Resource>;
 } | null // Null for main screen (not in hub)
 
 // Graph nodes
@@ -141,3 +148,22 @@ export const createEndDialogue = (text: string): JourneyOption => ({
 /* ********************
 End journey data structures
 ******************** */
+
+export enum Resource {
+    Water, Gas
+}
+
+export interface ResourceUnit {
+    type: Resource;
+    count: number;
+    capacity: number;
+}
+
+export const resString = (res: Resource): string => {
+    switch (res) {
+        case Resource.Water:
+            return "Water";
+        case Resource.Gas:
+            return "Gas";
+    }
+}

@@ -1,4 +1,4 @@
-import { State, JourneyAction, JourneyActionType, JourneyEvent, EventPoolManager, MigrantState, ZoneEventPool } from '../utils/types';
+import { State, JourneyAction, JourneyActionType, JourneyEvent, EventPoolManager, MigrantState, Resource } from '../utils/types';
 import { AssertionError } from 'assert';
 
 export function processDialogue(state: State, actions: JourneyAction[]): State {
@@ -43,10 +43,14 @@ export function processDialogue(state: State, actions: JourneyAction[]): State {
     if (state.journeyData.dayEvents.length === 0) {
         state = {
             ...state,
+            resources: state.resources.map(res => res.type === Resource.Water ? { ...res, count: Math.max(0, res.count - 1) } : 
+                (res.type === Resource.Gas ? {...res, count: Math.max(0, res.count - 2) } : res)),
             journeyData: {
                 ...state.journeyData,
-                distanceTravelled: state.journeyData.distanceTravelled + 100,
-                day: state.journeyData.day + 1,
+                distanceTravelled: state.journeyData.distanceTravelled + 60,
+                dayTime: state.journeyData.dayTime === "morning" ? "afternoon" : 
+                    (state.journeyData.dayTime === "afternoon" ? "night" : "morning"),
+                day: state.journeyData.dayTime === "night" ? state.journeyData.day + 1 : state.journeyData.day,
             }
         }
 
@@ -77,6 +81,7 @@ export function startJourney(state: State, destination: string): State {
             ...state.journeyData,
             currentRoute: route,
             distanceTravelled: 0,
+            dayTime: "morning",
             forward: forwards,
         }
     }
@@ -111,8 +116,8 @@ function generateEvents(state: State): State {
 
     // Generate migrant events
     for (const migrant of journeyMigrants) {
-        // 30% chance per day per migrant of one of their events spawning
-        const spawn = Math.random() <= 0.3;
+        // 20% chance per dayTime per migrant of one of their events spawning
+        const spawn = Math.random() <= 0.2;
         if (!spawn) { continue; }
 
         // Get pool of events pertaining to this specific migrant

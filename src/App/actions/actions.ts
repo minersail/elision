@@ -1,5 +1,5 @@
 import { createAction } from 'typesafe-actions';
-import { JourneyAction, CityHubType } from '../utils/types';
+import { JourneyAction, CityHubType, Resource } from '../utils/types';
 
 export const switchScreen = createAction("actions/game/SWITCHSCREEN", (resolve) => {
     return (screenId: number) => resolve(screenId);
@@ -15,4 +15,7 @@ export const startJourney = createAction("actions/journey/STARTJOURNEY", (resolv
 });
 export const processDialogue = createAction("actions/journey/PROCESSDIALOGUE", (resolve) => {
     return (actions: JourneyAction[]) => resolve(actions);
+});
+export const purchaseItem = createAction("actions/city/PURCHASEITEM", (resolve) => {
+    return (resource: Resource, amount: number, price: number) => resolve({resource, amount, price});
 });

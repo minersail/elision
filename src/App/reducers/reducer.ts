@@ -1,5 +1,5 @@
 import { ActionType, getType } from 'typesafe-actions';
-import { MigrantState, State, ZoneType, CityHubType } from '../utils/types';
+import { MigrantState, State, ZoneType, CityHubType, Resource } from '../utils/types';
 import * as actions from '../actions/actions';
 import { startJourney, processDialogue } from './journeyReducers';
 import idleEvents from './state/idleEvents';
@@ -9,7 +9,19 @@ import { cities, routes } from './state/citiesAndRoutes';
 
 const initialState: State = {
     gameScreen: -1,
-    cash: 1000,
+    cash: 50000,
+    resources: [
+        {
+            type: Resource.Water,
+            count: 10,
+            capacity: 40,
+        },
+        {
+            type: Resource.Gas,
+            count: 10,
+            capacity: 75,
+        },
+    ],
     migrants: [
         {
             id: 0,
@@ -18,6 +30,7 @@ const initialState: State = {
             languages: ["English", "Yoruba"],
             shortBio: "Ojeomokhai is a 33 year old engineer seeking a better job market for his skill set.",
             bio: "",
+            money: 20000,
             state: MigrantState.Open,
         },        
         {
@@ -27,6 +40,7 @@ const initialState: State = {
             languages: ["Hausa", "French"],
             shortBio: "A quiet, ambitious woman, Gloria is pursuing higher education in Europe to become a doctor.",
             bio: "",
+            money: 20000,
             state: MigrantState.Open,
         },        
         {
@@ -36,6 +50,7 @@ const initialState: State = {
             languages: ["French"],
             shortBio: "Calvin is looking to make it to Spain, where his brother is.",
             bio: "",
+            money: 10000,
             state: MigrantState.Open,
         }
     ],
@@ -84,6 +99,13 @@ function reducer(state: State = initialState, action: Action): State {
             return startJourney(state, action.payload);
         case getType(actions.processDialogue):
             return processDialogue(state, action.payload);
+        case getType(actions.purchaseItem):
+            return {
+                ...state,
+                cash: state.cash - (action.payload.price * action.payload.amount),
+                resources: state.resources.map(res => res.type === action.payload.resource ? 
+                    {...res, count: res.count + action.payload.amount}: res),
+            }
         default:
             return state;
     }

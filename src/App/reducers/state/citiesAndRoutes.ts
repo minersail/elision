@@ -1,4 +1,4 @@
-import { ZoneType, CityData, RouteData, CityHubType } from "../../utils/types";
+import { ZoneType, CityData, RouteData, CityHubType, Resource } from "../../utils/types";
 
 export const routes: RouteData[] = [
     {
@@ -7,8 +7,8 @@ export const routes: RouteData[] = [
         zones: [
             {
                 type: ZoneType.Bribery,
-                zoneStart: 0,
-                zoneEnd: 150,
+                zoneStart: 50,
+                zoneEnd: 100,
                 chance: 1,
             },                
             // {
@@ -27,10 +27,10 @@ export const routes: RouteData[] = [
                 type: ZoneType.Bandit,
                 zoneStart: 100,
                 zoneEnd: 500,
-                chance: 0.25,
+                chance: 0.4,
             }
         ],
-        distance: 600,
+        distance: 584,
     }
 ];
 
@@ -46,6 +46,26 @@ export const cities: CityData[] = [
             name: "Journey",
             type: CityHubType.Journey,
             destinations: getDestinations("Agadez"),
+        },
+        {
+            name: "Market",
+            type: CityHubType.Shop,
+            resources: [
+                {
+                    type: Resource.Water,
+                    count: 5,
+                    capacity: 5,
+                },                
+                {
+                    type: Resource.Gas,
+                    count: 5,
+                    capacity: 5,
+                }
+            ],
+            prices: new Map([
+                [Resource.Water, 180],
+                [Resource.Gas, 235],
+            ]),
         }]
     },        
     {

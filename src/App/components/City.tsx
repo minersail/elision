@@ -1,17 +1,20 @@
 import * as React from "react";
-import { CityData, CityHubType, Migrant, CityHub } from "../utils/types";
+import { CityData, CityHubType, Migrant, CityHub, Resource, ResourceUnit } from "../utils/types";
 import RecruitmentHub from "./RecruitmentHub";
 import JourneyHub from "./JourneyHub";
+import ShopHub from "./ShopHub";
 
 interface CityProps {
     city: CityData;
     currentHub: CityHub;
     hasSelectedMigrants: boolean;
     migrants: Migrant[];
+    resources: ResourceUnit[];
 
     switchHub: (hubType: CityHubType) => void;
     acceptRecruit: (migrantId: number) => void;
     startJourney: (destination: string) => void;
+    purchaseItem: (resource: Resource, amount: number, price: number) => void;
 }
 
 function City(props: CityProps) {
@@ -41,7 +44,13 @@ function City(props: CityProps) {
 
             props.currentHub !== null && props.currentHub.type === CityHubType.Journey &&    
             <JourneyHub hubName={ props.currentHub.name } switchHub={ props.switchHub } startJourney={ props.startJourney } 
-            destinations={ props.currentHub.destinations } />
+            destinations={ props.currentHub.destinations } />            
+
+            ||
+
+            props.currentHub !== null && props.currentHub.type === CityHubType.Shop &&    
+            <ShopHub hubName={ props.currentHub.name } resources={ props.currentHub.resources } prices={ props.currentHub.prices }
+            switchHub={ props.switchHub } purchaseItem={ props.purchaseItem } />
         }
         </>
     );
