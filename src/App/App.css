@@ -229,10 +229,75 @@ button:focus {
     visibility: visible;
 }
 
+/***** Notebook *****/
+.notebook-background {    
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    
+    background-color: #00000066;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 5;
+}
+
+.notebook-container {
+    position: relative;
+
+    min-width: 420px;
+    min-height: 300px;
+    width: 42%;
+    padding-bottom: 30%; /* use instead of height to keep aspect ratio */
+
+    background-color: var(--tertiary);
+    border: 20px solid var(--tertiary);
+
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: row;
+    
+    align-items: center;
+    justify-content: space-around;
+    
+    box-shadow: 0px 3px 15px var(--primary-shadow);
+}
+
+.notebook-migrant-bio {
+    position: absolute;
+    top: 0;
+    color: var(--primary);
+    background-color: var(--secondary);
+    width: 49%;
+    height: 100%;
+}
+
+.notebook-migrant-bio.left {
+    left: 0;
+}
+
+.notebook-migrant-bio.right {
+    right: 0;
+}
+
+.notebook-map {
+    position: absolute;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+    background: #6E6951 url("../map.svg") no-repeat center center;
+    background-size: cover;
+}
+
 /***** City ******/
 
 .city-container {
-    background-color: var(--primary);
+    background: var(--primary);
+
     width: 80%;
 }
 
@@ -427,19 +492,19 @@ button:focus {
 .journey-container {
     width: 80%;
 
-    transition: background-color 1s;
+    transition: background 1s;
 }
 
 .journey-container.morning {    
-    background-color: var(--secondary);
+    background: var(--secondary) url("../dayjourney.svg") no-repeat bottom center;
 }
 
 .journey-container.afternoon {
-    background-color: #AfA881;
+    background: #AfA881 url("../afternnonjourney.svg") no-repeat bottom center;
 }
 
 .journey-container.night {
-    background-color: #6E6951;
+    background: #6E6951 url("../nightjourney.svg") no-repeat bottom center;
 }
 
 .journey-destination {

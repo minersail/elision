@@ -10,6 +10,7 @@ import { cities, routes } from './state/citiesAndRoutes';
 const initialState: State = {
     gameScreen: -1,
     cash: 50000,
+    notebookActive: false,
     resources: [
         {
             type: Resource.Water,
@@ -81,6 +82,11 @@ function reducer(state: State = initialState, action: Action): State {
                 ...state,
                 gameScreen: action.payload,
             };
+        case getType(actions.toggleNotebook):
+            return {
+                ...state,
+                notebookActive: action.payload,
+            }
         case getType(actions.switchHub):
             return {
                 ...state,

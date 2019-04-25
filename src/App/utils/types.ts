@@ -1,6 +1,8 @@
 export interface State {
     gameScreen: number;
 
+    notebookActive: boolean;
+
     cash: number;
     migrants: Migrant[];
     resources: ResourceUnit[];

@@ -10,6 +10,7 @@ import Journey from './components/Journey';
 
 const mapStateToProps = (state: State) => ({
     gameScreen: state.gameScreen,
+    notebookActive: state.notebookActive,
     
     cash: state.cash,
     resources: state.resources,
@@ -28,6 +29,9 @@ const mapDispatchToProps = (dispatch: any) => ({
     switchHub: (hubType: CityHubType) => {
         dispatch(actions.switchHub(hubType));
     },
+	toggleNotebook: (enable: boolean) => {
+		dispatch(actions.toggleNotebook(enable));
+	},
 	acceptRecruit: (migrantID: number) => {
 		dispatch(actions.acceptRecruit(migrantID));
 	},
@@ -44,6 +48,7 @@ const mapDispatchToProps = (dispatch: any) => ({
 
 interface AppProps {
     gameScreen: number;
+    notebookActive: boolean;
 
     cash: number;
     resources: ResourceUnit[];
@@ -56,7 +61,8 @@ interface AppProps {
 
     switchScreen: (screenId: number) => void;
     switchHub: (hubType: CityHubType) => void;
-    acceptRecruit: (migrantID: number) => void;   
+    toggleNotebook: (enable: boolean) => void;
+    acceptRecruit: (migrantID: number) => void;
 	startJourney: (destination: string) => void;
 	processDialogue: (journeyActions: JourneyAction[]) => void;
     purchaseItem: (resource: Resource, amount: number, price: number) => void;
@@ -74,7 +80,8 @@ class App extends Component<AppProps> {
                     
                     <div className="game-container">
                         <Sidebar name="Ibrahim" reputation="anonymous, unvetted" cash={ this.props.cash } inverted={ this.props.gameScreen === 1 } 
-                        activeMigrants={ this.props.migrants.filter((migrant) => migrant.state === MigrantState.Journeying) } resources={ this.props.resources } />                  
+                        activeMigrants={ this.props.migrants.filter((migrant) => migrant.state === MigrantState.Journeying) } resources={ this.props.resources } 
+                        notebookActive={ this.props.notebookActive } toggleNotebook={ this.props.toggleNotebook } />                  
                         {                         
                             this.props.gameScreen === 0 &&
                             <City city={ this.props.currentCity } currentHub={ this.props.currentCityHub } startJourney={ this.props.startJourney }

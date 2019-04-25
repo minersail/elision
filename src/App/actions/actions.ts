@@ -4,6 +4,9 @@ import { JourneyAction, CityHubType, Resource } from '../utils/types';
 export const switchScreen = createAction("actions/game/SWITCHSCREEN", (resolve) => {
     return (screenId: number) => resolve(screenId);
 });
+export const toggleNotebook = createAction("actions/game/TOGGLENOTEBOOK", (resolve) => {
+    return (enable: boolean) => resolve(enable);
+});
 export const switchHub = createAction("actions/city/SWITCHHUB", (resolve) => {
     return (hubType: CityHubType) => resolve(hubType);
 });
