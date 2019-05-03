@@ -1,12 +1,16 @@
 import * as React from "react";
-import { Migrant, MigrantState, CityHubType } from "../utils/types";
+import { Migrant, MigrantState, CityHubType, CityData } from "../utils/types";
+import { JOURNEY_COST } from "../utils/constants";
 
 interface RecruitmentHubProps {
     hubName: string;
     migrants: Migrant[];
 
+    recruitString: string;
+    recruitString2: string;
+
     switchHub: (hubType: CityHubType) => void;
-    acceptRecruit: (migrantID: number) => void;
+    acceptRecruit: (migrantID: number, money: number) => void;
 }
 
 interface RecruitmentHubState {
@@ -33,12 +37,36 @@ class RecruitmentHub extends React.Component<RecruitmentHubProps, RecruitmentHub
                     {
                         selected !== null &&
                         <>
-                            <div className="info">You approach { selected.name }, and discreetly ask if migrant services are needed. After 
-                            a short conversation, you gauge that { selected.name } has enough interest to consider your proposal.</div>
-                            <div className="info-choice-container">
-                                <button className="info-choice" onClick={ () => { this.props.acceptRecruit(selected.id); this.setState({...this.state, selectedRecruit: null, showRecruits: false}); } }>Accept { selected.name }</button>
-                                <button className="info-choice" onClick={ () => { this.setState({...this.state, selectedRecruit: null, showRecruits: false}); } }>Change your mind</button>
-                            </div>
+                        {
+                            selected.money >= JOURNEY_COST &&        
+                            <>
+                                <div className="info">You approach { selected.name }, and discreetly ask if migrant services are needed. After 
+                                a short conversation, you gauge that { selected.name } has enough interest to consider your proposal.</div>
+                                <div className="info-choice-container">
+                                    <button className="info-choice" onClick={ () => { 
+                                        this.props.acceptRecruit(selected.id, JOURNEY_COST); 
+                                        this.setState({...this.state, selectedRecruit: null, showRecruits: false}); 
+                                    } }>Accept { selected.name }</button>
+                                    <button className="info-choice" onClick={ () => {
+                                        this.setState({...this.state, selectedRecruit: null, showRecruits: false}); 
+                                    } }>Change your mind</button>
+                                </div>
+                            </>
+                            ||
+                            <>
+                                <div className="info">You approach { selected.name }, and discreetly ask if migrant services are needed. However,
+                                { selected.name } only has { selected.money } CFA, not enough to pay for the entire journey.</div>
+                                <div className="info-choice-container">
+                                    <button className="info-choice" onClick={ () => { 
+                                        this.props.acceptRecruit(selected.id, selected.money);
+                                        this.setState({...this.state, selectedRecruit: null, showRecruits: false}); 
+                                    } }>Take { selected.name } on anyways.</button>
+                                    <button className="info-choice" onClick={ () => {
+                                        this.setState({...this.state, selectedRecruit: null, showRecruits: false}); 
+                                    } }>Change your mind</button>
+                                </div>
+                            </>
+                        }
                         </>
                     }                    
                     {
@@ -47,8 +75,7 @@ class RecruitmentHub extends React.Component<RecruitmentHubProps, RecruitmentHub
                         {
                             this.state.showRecruits &&
                             <>
-                                <div className="info">You approach the crowd, and immediately a few individuals rush towards you, speaking in a myriad of
-                                languages. It's fortunate that the smuggling trade is so freely visible in Agadez, you muse.</div>
+                                <div className="info">{ this.props.recruitString2 }</div>
                                 <div className="info-choice-container">
                                     <button className="info-choice" onClick={ () => { this.setState({...this.state, showRecruits: false}); } }>Change your mind.</button>
                                 </div>
@@ -57,9 +84,7 @@ class RecruitmentHub extends React.Component<RecruitmentHubProps, RecruitmentHub
                         {
                             !this.state.showRecruits &&
                             <>
-                                <div className="info">Agadez is the last bus stop of the ECOWAS zone, an area of West Africa where nationals
-                                may travel freely between countries without a passport. Jumping off the buses are tired but eager faces ready
-                                to start the next leg of their journey.</div>
+                                <div className="info">{ this.props.recruitString }</div>
                                 <div className="info-choice-container">
                                     <button className="info-choice" onClick={ () => { this.setState({...this.state, showRecruits: true}); } }>Look around</button>
                                     <button className="info-choice" onClick={ () => { this.props.switchHub(CityHubType.None); } }>Return to the city</button>

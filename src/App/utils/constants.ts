@@ -1,0 +1,1 @@
+export const JOURNEY_COST = 15000;

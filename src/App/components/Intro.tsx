@@ -1,7 +1,8 @@
 import * as React from "react";
+import { GameScreen } from "../utils/types";
 
 interface IntroProps {
-    switchScreen: (screenID: number) => void;
+    switchScreen: (gameScreen: number) => void;
 }
 
 function Intro(props: IntroProps) {
@@ -15,7 +16,7 @@ function Intro(props: IntroProps) {
                 <p>Your name is Ibrahim, and you are a former migrant who has returned to Agadez, Niger to seek work. In the
                     absence of consistent options, you decide to try your hand locally in the industry that once
                     helped you escape.</p>
-                <button onClick={ () => {props.switchScreen(0);} }>Continue</button>
+                <button onClick={ () => {props.switchScreen(GameScreen.City);} }>Continue</button>
             </div>
         </div>
     );

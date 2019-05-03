@@ -1,11 +1,10 @@
 export interface State {
-    gameScreen: number;
-
-    notebookActive: boolean;
+    gameScreen: GameScreen;
 
     cash: number;
     migrants: Migrant[];
     resources: ResourceUnit[];
+    notebook: NotebookData;
 
     pools: EventPoolManager;
 
@@ -18,6 +17,10 @@ export interface State {
     currentCityHub: CityHub;
 }
 
+export enum GameScreen {
+    Start, City, Journey, End
+}
+
 export interface Migrant {
     id: number,
     name: string;
@@ -26,6 +29,8 @@ export interface Migrant {
     shortBio: string;
     bio: string;
     money: number;
+
+    destination: string;
 
     state: MigrantState;
 }
@@ -57,6 +62,9 @@ export type CityHub = {
 export interface CityData {
     name: string;
     hubs: CityHub[];
+
+    recruitString: string;
+    recruitString2: string;
 }
 
 // Graph edges (two-way, zones go from fromCity to toCity)
@@ -72,7 +80,6 @@ Start journey data structures
 ******************** */
 export interface JourneyData { // Tracks the current journey
     currentRoute: RouteData;
-    forward: boolean; // Going from fromCity to toCity or other way around
     distanceTravelled: number; // In km
 
     dayEvents: JourneyEvent[];
@@ -169,3 +176,38 @@ export const resString = (res: Resource): string => {
             return "Gas";
     }
 }
+
+/* ********************
+Start notebook data structures
+******************** */
+
+export interface NotebookData {
+    glossary: GlossaryEntry[];
+    glossaryPages: GlossaryPage[];
+
+    section: NotebookSection;
+    
+    active: boolean;
+    mapZoomed: boolean;
+    migrantIndex: number;
+    glossaryIndex: number;
+}
+
+export enum NotebookSection {
+    Map, Biography, Glossary
+}
+
+export interface GlossaryEntry {
+    name: string;
+    keys: string[];
+    definition: string;
+}
+
+export interface GlossaryPage {
+    start: string;
+    end: string;
+}
+
+/* ********************
+End notebook data structures
+******************** */

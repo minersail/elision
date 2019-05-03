@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from './actions/actions';
 import './App.css';
-import { JourneyAction, Migrant, MigrantState, State, JourneyData, CityData, CityHubType, CityHub, ResourceUnit, Resource } from './utils/types';
+import { JourneyAction, Migrant, MigrantState, State, JourneyData, CityData, CityHubType, CityHub, ResourceUnit, Resource, NotebookData, GameScreen } from './utils/types';
 import Sidebar from './components/Sidebar';
 import Intro from './components/Intro';
 import City from './components/City';
@@ -10,10 +10,10 @@ import Journey from './components/Journey';
 
 const mapStateToProps = (state: State) => ({
     gameScreen: state.gameScreen,
-    notebookActive: state.notebookActive,
     
     cash: state.cash,
     resources: state.resources,
+    notebook: state.notebook,
     migrants: state.migrants,
     cities: state.cities,
 
@@ -23,17 +23,20 @@ const mapStateToProps = (state: State) => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-	switchScreen: (screenId: number) => {
-		dispatch(actions.switchScreen(screenId));
+	switchScreen: (gameScreen: GameScreen) => {
+		dispatch(actions.switchScreen(gameScreen));
     },
     switchHub: (hubType: CityHubType) => {
         dispatch(actions.switchHub(hubType));
     },
 	toggleNotebook: (enable: boolean) => {
 		dispatch(actions.toggleNotebook(enable));
-	},
-	acceptRecruit: (migrantID: number) => {
-		dispatch(actions.acceptRecruit(migrantID));
+    },
+    flipNotebook: (forwards: boolean) => {
+        dispatch(actions.flipNotebook(forwards));
+    },
+	acceptRecruit: (migrantID: number, money: number) => {
+		dispatch(actions.acceptRecruit(migrantID, money));
 	},
 	startJourney: (destination: string) => {
 		dispatch(actions.startJourney(destination));
@@ -48,10 +51,10 @@ const mapDispatchToProps = (dispatch: any) => ({
 
 interface AppProps {
     gameScreen: number;
-    notebookActive: boolean;
 
     cash: number;
     resources: ResourceUnit[];
+    notebook: NotebookData,
     migrants: Migrant[];
     cities: CityData[];
 
@@ -59,10 +62,11 @@ interface AppProps {
     currentCity: CityData;
     currentCityHub: CityHub;
 
-    switchScreen: (screenId: number) => void;
+    switchScreen: (gameScreen: number) => void;
     switchHub: (hubType: CityHubType) => void;
     toggleNotebook: (enable: boolean) => void;
-    acceptRecruit: (migrantID: number) => void;
+    flipNotebook: (forwards: boolean) => void;
+    acceptRecruit: (migrantID: number, money: number) => void;
 	startJourney: (destination: string) => void;
 	processDialogue: (journeyActions: JourneyAction[]) => void;
     purchaseItem: (resource: Resource, amount: number, price: number) => void;
@@ -73,17 +77,18 @@ class App extends Component<AppProps> {
         return (
             <div className="App">
                 {                    
-                    this.props.gameScreen === -1 &&
+                    this.props.gameScreen === GameScreen.Start &&
                     <Intro switchScreen={ this.props.switchScreen } />
 
                     ||
                     
                     <div className="game-container">
-                        <Sidebar name="Ibrahim" reputation="anonymous, unvetted" cash={ this.props.cash } inverted={ this.props.gameScreen === 1 } 
+                        <Sidebar name="Ibrahim" reputation="anonymous, unvetted" cash={ this.props.cash } inverted={ this.props.gameScreen === GameScreen.Journey } 
                         activeMigrants={ this.props.migrants.filter((migrant) => migrant.state === MigrantState.Journeying) } resources={ this.props.resources } 
-                        notebookActive={ this.props.notebookActive } toggleNotebook={ this.props.toggleNotebook } />                  
+                        notebook={ this.props.notebook } toggleNotebook={ this.props.toggleNotebook } flipNotebook={ this.props.flipNotebook } 
+                        gameScreen={ this.props.gameScreen } currentCity={ this.props.currentCity } journeyData={ this.props.journeyData } />
                         {                         
-                            this.props.gameScreen === 0 &&
+                            this.props.gameScreen === GameScreen.City &&
                             <City city={ this.props.currentCity } currentHub={ this.props.currentCityHub } startJourney={ this.props.startJourney }
                             hasSelectedMigrants={ this.props.migrants.filter((m) => m.state === MigrantState.Journeying).length > 0 }
                             migrants={ this.props.migrants } acceptRecruit={ this.props.acceptRecruit } switchHub={ this.props.switchHub }
@@ -91,9 +96,9 @@ class App extends Component<AppProps> {
 
                             ||
 
-                            this.props.gameScreen === 1 &&
+                            this.props.gameScreen === GameScreen.Journey &&
                             <Journey dayTime = { this.props.journeyData.dayTime } processDialogue={ this.props.processDialogue } 
-                            destination={ this.props.journeyData.forward ? this.props.journeyData.currentRoute.toCity : this.props.journeyData.currentRoute.fromCity } 
+                            destination={ this.props.journeyData.currentRoute.toCity } 
                             day={ this.props.journeyData.day } distRemaining={ this.props.journeyData.currentRoute.distance - this.props.journeyData.distanceTravelled } 
                             dialogue={ this.props.journeyData.dayEvents[0].dialogues[this.props.journeyData.dayEvents[0].currentDialogueID] } />
                         }

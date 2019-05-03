@@ -1,16 +1,18 @@
 import { ActionType, getType } from 'typesafe-actions';
-import { MigrantState, State, ZoneType, CityHubType, Resource } from '../utils/types';
+import { MigrantState, State, CityHubType, Resource, NotebookSection, NotebookData, GameScreen } from '../utils/types';
 import * as actions from '../actions/actions';
 import { startJourney, processDialogue } from './journeyReducers';
+import { flipNotebook } from './notebookReducers';
 import idleEvents from './state/idleEvents';
 import migrantEvents from './state/migrantEvents';
 import zoneEvents from './state/zoneEvents';
+import migrants from './state/migrants';
 import { cities, routes } from './state/citiesAndRoutes';
+import { glossary, glossaryPages } from './state/glossary';
 
 const initialState: State = {
-    gameScreen: -1,
+    gameScreen: GameScreen.Start,
     cash: 50000,
-    notebookActive: false,
     resources: [
         {
             type: Resource.Water,
@@ -23,38 +25,16 @@ const initialState: State = {
             capacity: 75,
         },
     ],
-    migrants: [
-        {
-            id: 0,
-            name: "Ojeomokhai",
-            nationality: "Nigerian",
-            languages: ["English", "Yoruba"],
-            shortBio: "Ojeomokhai is a 33 year old engineer seeking a better job market for his skill set.",
-            bio: "",
-            money: 20000,
-            state: MigrantState.Open,
-        },        
-        {
-            id: 1,
-            name: "Gloria",
-            nationality: "Nigerien",
-            languages: ["Hausa", "French"],
-            shortBio: "A quiet, ambitious woman, Gloria is pursuing higher education in Europe to become a doctor.",
-            bio: "",
-            money: 20000,
-            state: MigrantState.Open,
-        },        
-        {
-            id: 2,
-            name: "Calvin",
-            nationality: "Cameroonian",
-            languages: ["French"],
-            shortBio: "Calvin is looking to make it to Spain, where his brother is.",
-            bio: "",
-            money: 10000,
-            state: MigrantState.Open,
-        }
-    ],
+    notebook: {
+        glossary,
+        glossaryPages,
+        section: NotebookSection.Map,
+        active: false,
+        mapZoomed: false,
+        migrantIndex: 0,
+        glossaryIndex: 0,
+    },
+    migrants,
     pools: {
         migrantPools: migrantEvents,
         zonePools: zoneEvents,
@@ -64,7 +44,6 @@ const initialState: State = {
     routes,
     journeyData: {
         currentRoute: routes[0],
-        forward: true,
         distanceTravelled: 0,
         dayEvents: [],
         day: 0,
@@ -85,8 +64,13 @@ function reducer(state: State = initialState, action: Action): State {
         case getType(actions.toggleNotebook):
             return {
                 ...state,
-                notebookActive: action.payload,
-            }
+                notebook: {
+                    ...state.notebook,
+                    active: action.payload,
+                }
+            };            
+        case getType(actions.flipNotebook):
+            return flipNotebook(state, action.payload);
         case getType(actions.switchHub):
             return {
                 ...state,
@@ -96,9 +80,11 @@ function reducer(state: State = initialState, action: Action): State {
         case getType(actions.acceptRecruit):
             return {
                 ...state,
-                migrants: state.migrants.map((m) => m.id !== action.payload ? m : {
+                cash: state.cash + action.payload.money,
+                migrants: state.migrants.map((m) => m.id !== action.payload.migrantID ? m : {
                     ...m,
                     state: MigrantState.Journeying,
+                    money: m.money - action.payload.money,
                 })
             };
         case getType(actions.startJourney):

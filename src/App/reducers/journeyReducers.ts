@@ -1,4 +1,4 @@
-import { State, JourneyAction, JourneyActionType, JourneyEvent, EventPoolManager, MigrantState, Resource } from '../utils/types';
+import { State, JourneyAction, JourneyActionType, JourneyEvent, EventPoolManager, MigrantState, Resource, GameScreen } from '../utils/types';
 import { AssertionError } from 'assert';
 
 export function processDialogue(state: State, actions: JourneyAction[]): State {
@@ -63,26 +63,19 @@ export function processDialogue(state: State, actions: JourneyAction[]): State {
 }
 
 export function startJourney(state: State, destination: string): State {
-    let route = state.routes.find(r => r.fromCity === state.currentCity.name && r.toCity === destination);
-    let forwards = true;
+    const route = state.routes.find(r => r.fromCity === state.currentCity.name && r.toCity === destination);
 
-    if (!route) {
-        route = state.routes.find(r => r.fromCity === destination && r.toCity === state.currentCity.name);
-        forwards = false;
-    }
-
-    // Route does not exist backwards or forwards
+    // Route does not exist
     if (!route) { throw new AssertionError({ message: "Cities set up incorrectly" }); }
 
     state = {
         ...state,
-        gameScreen: 1,
+        gameScreen: GameScreen.Journey,
         journeyData: {
             ...state.journeyData,
             currentRoute: route,
             distanceTravelled: 0,
             dayTime: "morning",
-            forward: forwards,
         }
     }
     
@@ -92,15 +85,13 @@ export function startJourney(state: State, destination: string): State {
 }
 
 function endJourney(state: State): State {
-    const currCity = state.cities.find(x => state.journeyData.forward ? 
-        x.name === state.journeyData.currentRoute.toCity : 
-        x.name === state.journeyData.currentRoute.fromCity); 
+    const currCity = state.cities.find(x => x.name === state.journeyData.currentRoute.toCity);
 
     if (!currCity) { throw new AssertionError({ message: "Cities set up incorrectly" }); }
 
     return {
         ...state,
-        gameScreen: 0,
+        gameScreen: GameScreen.City,
         currentCity: currCity,
         currentCityHub: null,
     };
@@ -138,8 +129,7 @@ function generateEvents(state: State): State {
     // Generate zone events
     for (const zone of state.journeyData.currentRoute.zones) {
         // Account for going backwards along route
-        const distAlongRoute = state.journeyData.forward ? state.journeyData.distanceTravelled :
-            state.journeyData.currentRoute.distance - state.journeyData.distanceTravelled;
+        const distAlongRoute = state.journeyData.distanceTravelled;
         const spawn = Math.random() <= zone.chance;
 
         if (spawn && distAlongRoute > zone.zoneStart && distAlongRoute < zone.zoneEnd) {

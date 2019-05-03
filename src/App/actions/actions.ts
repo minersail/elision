@@ -1,17 +1,20 @@
 import { createAction } from 'typesafe-actions';
-import { JourneyAction, CityHubType, Resource } from '../utils/types';
+import { JourneyAction, CityHubType, Resource, GameScreen } from '../utils/types';
 
 export const switchScreen = createAction("actions/game/SWITCHSCREEN", (resolve) => {
-    return (screenId: number) => resolve(screenId);
+    return (gameScreen: GameScreen) => resolve(gameScreen);
 });
 export const toggleNotebook = createAction("actions/game/TOGGLENOTEBOOK", (resolve) => {
     return (enable: boolean) => resolve(enable);
+});
+export const flipNotebook = createAction("actions/game/FLIPNOTEBOOK", (resolve) => {
+    return (forwards: boolean) => resolve(forwards);
 });
 export const switchHub = createAction("actions/city/SWITCHHUB", (resolve) => {
     return (hubType: CityHubType) => resolve(hubType);
 });
 export const acceptRecruit = createAction("actions/city/ACCEPTRECRUIT", (resolve) => {
-    return (migrantID: number) => resolve(migrantID);
+    return (migrantID: number, money: number) => resolve({migrantID, money});
 });
 export const startJourney = createAction("actions/journey/STARTJOURNEY", (resolve) => {
     return (destination: string) => resolve(destination);

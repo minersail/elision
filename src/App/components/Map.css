@@ -1,0 +1,65 @@
+.cls-1 {
+    fill: #ccc;
+}
+
+.cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7 {
+    stroke: #000;
+}
+
+.cls-1, .cls-7 {
+    stroke-linecap: round;
+}
+
+.cls-2, .cls-3, .cls-4, .cls-5, .cls-6 {
+    fill: none;
+    stroke-miterlimit: 10;
+}
+
+.cls-3 {
+    stroke-dasharray: 3.89 3.89;
+}
+
+.cls-4 {
+    stroke-dasharray: 3.91 3.91;
+}
+
+.cls-5 {
+    stroke-dasharray: 4.03 4.03;
+}
+
+.cls-6 {
+    stroke-dasharray: 3.86 3.86;
+}
+
+.cls-14, .cls-8 {
+    font-size: 7.92px;
+    font-family: MyriadPro-Regular, Myriad Pro;
+}
+
+.cls-9 {
+    letter-spacing: -0.01em;
+}
+
+.cls-10 {
+    letter-spacing: 0em;
+}
+
+.cls-11 {
+    letter-spacing: 0em;
+}
+
+.cls-12 {
+    letter-spacing: 0em;
+}
+
+.cls-13 {
+    letter-spacing: 0em;
+}
+
+.cls-14 {
+    letter-spacing: -0.05em;
+}
+
+.cls-15 {
+    letter-spacing: 0em;
+}
