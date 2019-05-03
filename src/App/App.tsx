@@ -35,6 +35,9 @@ const mapDispatchToProps = (dispatch: any) => ({
     flipNotebook: (forwards: boolean) => {
         dispatch(actions.flipNotebook(forwards));
     },
+    goToDefinition: (key: string) => {
+        dispatch(actions.goToDefinition(key));
+    },
 	acceptRecruit: (migrantID: number, money: number) => {
 		dispatch(actions.acceptRecruit(migrantID, money));
 	},
@@ -66,6 +69,7 @@ interface AppProps {
     switchHub: (hubType: CityHubType) => void;
     toggleNotebook: (enable: boolean) => void;
     flipNotebook: (forwards: boolean) => void;
+    goToDefinition: (key: string) => void;
     acceptRecruit: (migrantID: number, money: number) => void;
 	startJourney: (destination: string) => void;
 	processDialogue: (journeyActions: JourneyAction[]) => void;
@@ -85,13 +89,13 @@ class App extends Component<AppProps> {
                     <div className="game-container">
                         <Sidebar name="Ibrahim" reputation="anonymous, unvetted" cash={ this.props.cash } inverted={ this.props.gameScreen === GameScreen.Journey } 
                         activeMigrants={ this.props.migrants.filter((migrant) => migrant.state === MigrantState.Journeying) } resources={ this.props.resources } 
-                        notebook={ this.props.notebook } toggleNotebook={ this.props.toggleNotebook } flipNotebook={ this.props.flipNotebook } 
+                        notebook={ this.props.notebook } toggleNotebook={ this.props.toggleNotebook } flipNotebook={ this.props.flipNotebook } goToDefinition={ this.props.goToDefinition }
                         gameScreen={ this.props.gameScreen } currentCity={ this.props.currentCity } journeyData={ this.props.journeyData } />
                         {                         
                             this.props.gameScreen === GameScreen.City &&
                             <City city={ this.props.currentCity } currentHub={ this.props.currentCityHub } startJourney={ this.props.startJourney }
                             hasSelectedMigrants={ this.props.migrants.filter((m) => m.state === MigrantState.Journeying).length > 0 }
-                            migrants={ this.props.migrants } acceptRecruit={ this.props.acceptRecruit } switchHub={ this.props.switchHub }
+                            migrants={ this.props.migrants } acceptRecruit={ this.props.acceptRecruit } switchHub={ this.props.switchHub } goToDefinition={ this.props.goToDefinition }
                             purchaseItem={ this.props.purchaseItem } resources={ this.props.resources } />
 
                             ||

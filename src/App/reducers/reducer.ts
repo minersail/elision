@@ -2,7 +2,7 @@ import { ActionType, getType } from 'typesafe-actions';
 import { MigrantState, State, CityHubType, Resource, NotebookSection, NotebookData, GameScreen } from '../utils/types';
 import * as actions from '../actions/actions';
 import { startJourney, processDialogue } from './journeyReducers';
-import { flipNotebook } from './notebookReducers';
+import { flipNotebook, goToDefinition } from './notebookReducers';
 import idleEvents from './state/idleEvents';
 import migrantEvents from './state/migrantEvents';
 import zoneEvents from './state/zoneEvents';
@@ -71,6 +71,8 @@ function reducer(state: State = initialState, action: Action): State {
             };            
         case getType(actions.flipNotebook):
             return flipNotebook(state, action.payload);
+        case getType(actions.goToDefinition):
+            return goToDefinition(state, action.payload);
         case getType(actions.switchHub):
             return {
                 ...state,

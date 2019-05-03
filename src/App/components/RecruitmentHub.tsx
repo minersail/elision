@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Migrant, MigrantState, CityHubType, CityData } from "../utils/types";
 import { JOURNEY_COST } from "../utils/constants";
+import generateLinks from "../utils/functions";
 
 interface RecruitmentHubProps {
     hubName: string;
@@ -9,6 +10,7 @@ interface RecruitmentHubProps {
     recruitString: string;
     recruitString2: string;
 
+    goToDefinition: (key: string) => void;
     switchHub: (hubType: CityHubType) => void;
     acceptRecruit: (migrantID: number, money: number) => void;
 }
@@ -84,7 +86,7 @@ class RecruitmentHub extends React.Component<RecruitmentHubProps, RecruitmentHub
                         {
                             !this.state.showRecruits &&
                             <>
-                                <div className="info">{ this.props.recruitString }</div>
+                                <div className="info">{ generateLinks(this.props.recruitString, this.props.goToDefinition) }</div>
                                 <div className="info-choice-container">
                                     <button className="info-choice" onClick={ () => { this.setState({...this.state, showRecruits: true}); } }>Look around</button>
                                     <button className="info-choice" onClick={ () => { this.props.switchHub(CityHubType.None); } }>Return to the city</button>

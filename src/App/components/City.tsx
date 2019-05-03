@@ -11,6 +11,7 @@ interface CityProps {
     migrants: Migrant[];
     resources: ResourceUnit[];
 
+    goToDefinition: (key: string) => void;
     switchHub: (hubType: CityHubType) => void;
     acceptRecruit: (migrantId: number, money: number) => void;
     startJourney: (destination: string) => void;
@@ -37,7 +38,7 @@ function City(props: CityProps) {
 
             props.currentHub !== null && props.currentHub.type === CityHubType.Recruitment &&    
             <RecruitmentHub hubName={ props.currentHub.name } switchHub={ props.switchHub } acceptRecruit={ props.acceptRecruit }
-            recruitString={ props.city.recruitString } recruitString2={ props.city.recruitString2 }
+            recruitString={ props.city.recruitString } recruitString2={ props.city.recruitString2 } goToDefinition={ props.goToDefinition }
             migrants={ props.migrants.filter((migrant) => props.currentHub !== null && 
                 props.currentHub.type === CityHubType.Recruitment && props.currentHub.migrants.includes(migrant.id)) } />            
 

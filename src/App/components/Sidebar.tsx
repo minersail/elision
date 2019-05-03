@@ -20,6 +20,7 @@ interface SidebarProps {
 
     toggleNotebook: (enable: boolean) => void;
     flipNotebook: (forwards: boolean) => void;
+    goToDefinition: (key: string) => void;
 }
 
 function Sidebar(props: SidebarProps) {
