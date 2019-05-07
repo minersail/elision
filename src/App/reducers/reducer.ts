@@ -1,28 +1,31 @@
 import { ActionType, getType } from 'typesafe-actions';
-import { MigrantState, State, CityHubType, Resource, NotebookSection, NotebookData, GameScreen } from '../utils/types';
+import { MigrantState, State, CityHubType, Resource, NotebookSection, GameScreen, JourneySpeed } from '../utils/types';
 import * as actions from '../actions/actions';
 import { startJourney, processDialogue } from './journeyReducers';
 import { flipNotebook, goToDefinition } from './notebookReducers';
 import idleEvents from './state/idleEvents';
 import migrantEvents from './state/migrantEvents';
 import zoneEvents from './state/zoneEvents';
+import resourceEvents from './state/resourceEvents';
 import migrants from './state/migrants';
 import { cities, routes } from './state/citiesAndRoutes';
 import { glossary, glossaryPages } from './state/glossary';
+import { STARTING_CASH, STARTING_GAS, STARTING_WATER, MAX_GAS, MAX_WATER } from '../utils/constants';
+import { AssertionError } from 'assert';
 
 const initialState: State = {
     gameScreen: GameScreen.Start,
-    cash: 50000,
+    cash: STARTING_CASH,
     resources: [
         {
             type: Resource.Water,
-            count: 10,
-            capacity: 40,
+            count: STARTING_WATER,
+            capacity: MAX_WATER,
         },
         {
             type: Resource.Gas,
-            count: 10,
-            capacity: 75,
+            count: STARTING_GAS,
+            capacity: MAX_GAS,
         },
     ],
     notebook: {
@@ -39,6 +42,7 @@ const initialState: State = {
         migrantPools: migrantEvents,
         zonePools: zoneEvents,
         idlePool: idleEvents,
+        resourceEventPool: resourceEvents,
     },
     cities,
     routes,
@@ -46,8 +50,9 @@ const initialState: State = {
         currentRoute: routes[0],
         distanceTravelled: 0,
         dayEvents: [],
-        day: 0,
+        day: 1,
         dayTime: "morning",
+        speed: JourneySpeed.Driving,
     },
     currentCity: cities[0],
     currentCityHub: null,
@@ -61,6 +66,8 @@ function reducer(state: State = initialState, action: Action): State {
                 ...state,
                 gameScreen: action.payload,
             };
+        case getType(actions.resetGame):
+            return initialState;
         case getType(actions.toggleNotebook):
             return {
                 ...state,
@@ -73,6 +80,14 @@ function reducer(state: State = initialState, action: Action): State {
             return flipNotebook(state, action.payload);
         case getType(actions.goToDefinition):
             return goToDefinition(state, action.payload);
+        case getType(actions.zoomMap):
+            return {
+                ...state,
+                notebook: {
+                    ...state.notebook,
+                    mapZoomed: action.payload,
+                }
+            }
         case getType(actions.switchHub):
             return {
                 ...state,
@@ -94,11 +109,18 @@ function reducer(state: State = initialState, action: Action): State {
         case getType(actions.processDialogue):
             return processDialogue(state, action.payload);
         case getType(actions.purchaseItem):
+            const resource = state.resources.find(res => res.type === action.payload.resource);
+            if (resource === undefined) { throw new AssertionError({ message: "Resource not found" }); }
+            
+            const canPurchase = Math.min(action.payload.amount, Math.floor(state.cash / action.payload.price), resource.capacity - resource.count);
+
+            // TODO: Subtract resource count from city
+
             return {
                 ...state,
-                cash: state.cash - (action.payload.price * action.payload.amount),
+                cash: state.cash - (action.payload.price * canPurchase),
                 resources: state.resources.map(res => res.type === action.payload.resource ? 
-                    {...res, count: res.count + action.payload.amount}: res),
+                    {...res, count: res.count + canPurchase}: res),
             }
         default:
             return state;

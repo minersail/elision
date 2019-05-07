@@ -43,8 +43,8 @@ class ShopHub extends React.Component<ShopHubProps, ShopHubState> {
                         ||                        
                         item !== undefined &&
                         <>
-                            <div className="info">The shopkeep has { item.count } liters of { resString(item.type).toLowerCase() }, 
-                            each costing { price } CFA. </div>
+                            <div className="info">The shopkeep is selling { resString(item.type).toLowerCase() }, 
+                            each liter costing { price } CFA. </div>
                             <div className="info-choice-container">
                                 <button className="info-choice" onClick={ () => { this.props.purchaseItem(item.type, 1, price); } }>Purchase 1</button>
                                 <button className="info-choice" onClick={ () => { this.props.purchaseItem(item.type, 5, price); } }>Purchase 5</button>

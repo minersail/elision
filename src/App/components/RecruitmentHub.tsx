@@ -1,9 +1,10 @@
 import * as React from "react";
 import { Migrant, MigrantState, CityHubType, CityData } from "../utils/types";
 import { JOURNEY_COST } from "../utils/constants";
-import generateLinks from "../utils/functions";
+import { generateLinks, getJourneyCost } from "../utils/functions";
 
 interface RecruitmentHubProps {
+    cityName: string;
     hubName: string;
     migrants: Migrant[];
 
@@ -40,13 +41,14 @@ class RecruitmentHub extends React.Component<RecruitmentHubProps, RecruitmentHub
                         selected !== null &&
                         <>
                         {
-                            selected.money >= JOURNEY_COST &&        
+                            selected.money >= getJourneyCost(this.props.cityName, selected.destination) &&        
                             <>
-                                <div className="info">You approach { selected.name }, and discreetly ask if migrant services are needed. After 
-                                a short conversation, you gauge that { selected.name } has enough interest to consider your proposal.</div>
+                                <div className="info">You approach { selected.name }, and discreetly ask if migrant services are needed. Their 
+                                journey to { selected.destination } will cost them { getJourneyCost(this.props.cityName, selected.destination) } CFA.
+                                After a short conversation, you gauge that { selected.name } has enough interest to consider your proposal.</div>
                                 <div className="info-choice-container">
                                     <button className="info-choice" onClick={ () => { 
-                                        this.props.acceptRecruit(selected.id, JOURNEY_COST); 
+                                        this.props.acceptRecruit(selected.id, getJourneyCost(this.props.cityName, selected.destination)); 
                                         this.setState({...this.state, selectedRecruit: null, showRecruits: false}); 
                                     } }>Accept { selected.name }</button>
                                     <button className="info-choice" onClick={ () => {
@@ -57,7 +59,8 @@ class RecruitmentHub extends React.Component<RecruitmentHubProps, RecruitmentHub
                             ||
                             <>
                                 <div className="info">You approach { selected.name }, and discreetly ask if migrant services are needed. However,
-                                { selected.name } only has { selected.money } CFA, not enough to pay for the entire journey.</div>
+                                { selected.name } only has { selected.money } CFA, less than the { getJourneyCost(this.props.cityName, selected.destination) + " " }
+                                CFA needed to pay for the journey to { selected.destination }.</div>
                                 <div className="info-choice-container">
                                     <button className="info-choice" onClick={ () => { 
                                         this.props.acceptRecruit(selected.id, selected.money);
@@ -77,7 +80,7 @@ class RecruitmentHub extends React.Component<RecruitmentHubProps, RecruitmentHub
                         {
                             this.state.showRecruits &&
                             <>
-                                <div className="info">{ this.props.recruitString2 }</div>
+                                <div className="info">{ generateLinks(this.props.recruitString2, this.props.goToDefinition) }</div>
                                 <div className="info-choice-container">
                                     <button className="info-choice" onClick={ () => { this.setState({...this.state, showRecruits: false}); } }>Change your mind.</button>
                                 </div>
@@ -104,6 +107,7 @@ class RecruitmentHub extends React.Component<RecruitmentHubProps, RecruitmentHub
                         (
                             <div className="recruit" key={ i }>
                                 <h3>{ migrant.name }</h3>
+                                <p>Destination: { migrant.destination }</p>
                                 <p>{ migrant.name } is a { migrant.nationality } who 
                                 speaks { migrant.languages.slice(0, -1).join(", ") + (migrant.languages.length > 1 ? " and " : "") + migrant.languages.slice(-1).pop() }.</p>
                                 <p>{ migrant.shortBio }</p>

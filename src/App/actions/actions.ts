@@ -4,6 +4,7 @@ import { JourneyAction, CityHubType, Resource, GameScreen } from '../utils/types
 export const switchScreen = createAction("actions/game/SWITCHSCREEN", (resolve) => {
     return (gameScreen: GameScreen) => resolve(gameScreen);
 });
+export const resetGame = createAction("actions/game/RESETGAME");
 export const toggleNotebook = createAction("actions/notebook/TOGGLENOTEBOOK", (resolve) => {
     return (enable: boolean) => resolve(enable);
 });
@@ -12,6 +13,9 @@ export const flipNotebook = createAction("actions/notebook/FLIPNOTEBOOK", (resol
 });
 export const goToDefinition = createAction("actions/notebook/GOTODEFINITION", (resolve) => {
     return (key: string) => resolve(key);
+});
+export const zoomMap = createAction("actions/notebook/ZOOMMAP", (resolve) => {
+    return (zoomIn: boolean) => resolve(zoomIn);
 });
 export const switchHub = createAction("actions/city/SWITCHHUB", (resolve) => {
     return (hubType: CityHubType) => resolve(hubType);

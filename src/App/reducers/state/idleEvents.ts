@@ -1,4 +1,4 @@
-import { createEndDialogue, JourneyActionType, EventPool } from "../../utils/types";
+import { createEndDialogue, EventPool } from "../../utils/types";
 
 const idleEvents: EventPool = {
     events: [
@@ -7,7 +7,7 @@ const idleEvents: EventPool = {
             dialogues: [
                 {
                     id: 0,
-                    text: "The day passes by unevenfully, spent quietly driving. Perhaps it is a blessing.",
+                    text: "The day passes by uneventfully, spent quietly driving. Perhaps it is a blessing.",
                     options: [
                         createEndDialogue("Continue onwards."),
                     ]

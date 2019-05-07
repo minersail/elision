@@ -73,17 +73,24 @@ button:focus {
     }
 }
 
-/***** Intro *****/
+/***** Intro / Ending *****/
 
-.intro-container {
+.intro-container, .ending-container {
     height: 100vh;
-    background-color: var(--secondary);
 
     display: flex;
     justify-content: space-between;
 }
 
-.intro {
+.intro-container {
+    background-color: var(--secondary);
+}
+
+.ending-container {
+    background-color: var(--primary);
+}
+
+.intro, .ending {
     width: 60%;
     height: 60%;
     margin: auto;
@@ -93,25 +100,39 @@ button:focus {
     justify-content: space-between;
 }
 
-.intro h1, .intro p {
-    color: var(--primary);
+.intro h1, .intro p, .ending h1, .ending p {
     margin: 0;
 }
 
-.intro h1 {
+.intro h1, .intro p {    
+    color: var(--primary);
+}
+
+.ending h1, .ending p {    
+    color: var(--secondary);
+}
+
+.intro h1, .ending h1 {
     font-size: 72px;
 }
 
-.intro p {
+.intro p, .ending p {
     font-size: 20px;
 }
 
-.intro button {
-    background-color: var(--primary);
-    color: var(--secondary);
-
+.intro button, .ending button {
     padding: 20px;
     font-size: 24px;
+}
+
+.intro button {    
+    background-color: var(--primary);
+    color: var(--secondary);
+}
+
+.ending button {    
+    background-color: var(--secondary);
+    color: var(--primary);
 }
 
 /***** Game *****/
@@ -173,7 +194,6 @@ button:focus {
     background-color: #777777;
 
     height: 25px;
-    width: auto;
 
     margin: 5px 50px 20px 50px;
 }
@@ -185,6 +205,20 @@ button:focus {
     float: left;
 }
 
+.resource-count {
+    visibility: hidden;
+    position: absolute;
+    width: 6em;
+
+    font-weight: bold;
+    
+    left: calc(50% - 3em);
+}
+
+.resource-bg:hover .resource-count {
+    visibility: visible;
+}
+
 .sidebar-notebook-container {
     width: 100%;
     margin-bottom: 20%;
@@ -194,7 +228,8 @@ button:focus {
 
 .sidebar-notebook {
     width: 50%;
-    padding-bottom: 62.5%; /* use instead of height to keep aspect ratio */
+    padding-top: 10%;
+    padding-bottom: 52.5%; /* use instead of height to keep aspect ratio */
     margin: 0 auto;
 
     background-color: var(--tertiary);
@@ -202,7 +237,8 @@ button:focus {
 
     border-radius: 10px;
 
-    white-space: pre;
+    filter: drop-shadow(3px 3px 2px rgba(0, 0, 0, .7));
+    cursor: pointer;
 }
 
 .inverted.sidebar-container {
@@ -266,6 +302,34 @@ button:focus {
     box-shadow: 0px 3px 15px var(--primary-shadow);
 }
 
+@media only screen and (max-width: 1400px) {
+    .notebook-container {
+        width: 49%;
+        padding-bottom: 35%;
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+    .notebook-container {
+        width: 56%;
+        padding-bottom: 40%;
+    }
+}
+
+@media only screen and (max-width: 1080px) {
+    .notebook-container {
+        width: 63%;
+        padding-bottom: 45%;
+    }
+}
+
+@media only screen and (max-width: 960px) {
+    .notebook-container {
+        width: 70%;
+        padding-bottom: 50%;
+    }
+}
+
 .notebook-page {
     position: absolute;
     top: 0;
@@ -273,33 +337,63 @@ button:focus {
     color: var(--primary);
     background-color: var(--secondary);
 
+    text-align: left;
+
     width: 49%;
     height: 100%;
-    padding: 15px;
+    padding: 5%;
 
     overflow-y: scroll;
 
-    transition: box-shadow 0.5s;
+    transition: box-shadow 0.5s, width 0.5s, padding 0.5s;
+}
+
+.notebook-page.glossary {    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
 .notebook-page.left {
-    left: 0;
-
-    box-shadow: -3px 0px 10px var(--primary-shadow);
+    right: 51%;
+    box-shadow: -3px 3px 10px var(--primary-shadow);
 }
 
 .notebook-page.left:hover {
-    box-shadow: -6px 0px 15px var(--primary-shadow);
+    padding-right: 4.5%;
+    width: 48.5%;
+    box-shadow: -6px 3px 15px var(--primary-shadow);
+}
+
+.notebook-page.left:active {
+    padding-right: 2%;
+    width: 46%;
+    box-shadow: -10px 3px 15px var(--primary-shadow);
 }
 
 .notebook-page.right {
-    right: 0;
-
-    box-shadow: 3px 0px 10px var(--primary-shadow);
+    left: 51%;
+    box-shadow: 3px 3px 10px var(--primary-shadow);
 }
 
 .notebook-page.right:hover {
-    box-shadow: 6px 0px 15px var(--primary-shadow);
+    padding-left: 4.5%;
+    width: 48.5%;
+    box-shadow: 6px 3px 15px var(--primary-shadow);
+}
+
+.notebook-page.right:active {
+    padding-left: 2%;
+    width: 46%;
+    box-shadow: 10px 3px 15px var(--primary-shadow);
+}
+
+.notebook-page p {
+    margin: 0;
+}
+
+.notebook-bio-header {
+    margin-bottom: 10%;
 }
 
 .notebook-map {
@@ -310,6 +404,22 @@ button:focus {
     height: 100%;
 
     filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, .7));
+}
+
+.notebook-zoom {
+    width: 50px;
+    height: 50px;
+    z-index: 2;
+
+    background-color: var(--tertiary);
+    border-radius: 50%;
+    font-size: 24px;
+
+    position: absolute;
+    right: 5%;
+    bottom: 5%;
+    
+    box-shadow: 2px 2px 5px var(--primary-shadow);
 }
 
 .definition {
@@ -387,6 +497,20 @@ button:focus {
 .city-grid button:nth-child(even) {
     justify-self: left;
     margin-left: 75px;
+}
+
+.city-description {
+    background-color: var(--secondary);
+    color: var(--primary);
+
+    width: 60%;
+    margin: 10% auto;
+    padding: 50px;
+
+    font-size: 20px;
+    text-align: left;
+
+    box-shadow: 0px 3px 15px var(--secondary-shadow);
 }
 
 /***** Info tabs *****/
@@ -536,7 +660,7 @@ button:focus {
 }
 
 .journey-container.afternoon {
-    background: #AfA881 url("../afternnonjourney.svg") no-repeat bottom center;
+    background: #AfA881 url("../afternoonjourney.svg") no-repeat bottom center;
 }
 
 .journey-container.night {

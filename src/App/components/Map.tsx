@@ -11,10 +11,12 @@ interface MapProps {
     currentCity: CityData;
 
     flipNotebook: (forwards: boolean) => void;
+    zoomMap: (zoomIn: boolean) => void;
 }
 
 function Map(props: MapProps) {
 	return (
+        <>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox={ getViewbox(props) } className="notebook-map" onClick={ () => { props.flipNotebook(true); } } >
         <title>africatest2</title>
         <g id="Countries">
@@ -106,37 +108,39 @@ function Map(props: MapProps) {
                 <animate attributeType="XML" attributeName="fill" values="black;red;black" dur="2s" repeatCount="indefinite"/>
             }
             </circle>
-            <text className="cls-8" transform="translate(425.05 353.65)"><tspan className="cls-9">A</tspan><tspan x="4.75" y="0">gadez</tspan></text>
+            <text className="cls-8" transform="translate(425.05 353.65)">Agadez</text>
             <circle id="DirkouCity" className="cls-7" cx="499.96" cy="303.49" r="4.13">
             {
                 props.gameScreen === GameScreen.City && props.currentCity.name === "Dirkou" &&
                 <animate attributeType="XML" attributeName="fill" values="black;red;black" dur="2s" repeatCount="indefinite"/>
             }
             </circle>
-            <text className="cls-8" transform="translate(499.96 315.04)">Di<tspan className="cls-10" x="7.13" y="0">r</tspan><tspan x="9.75" y="0">kou</tspan></text>
+            <text className="cls-8" transform="translate(499.96 315.04)">Dirkou</text>
             <circle id="QatrunCity" className="cls-7" cx="542.3" cy="203.87" r="4.13">
             {
                 props.gameScreen === GameScreen.City && props.currentCity.name === "Qatrun" &&
                 <animate attributeType="XML" attributeName="fill" values="black;red;black" dur="2s" repeatCount="indefinite"/>
             }
             </circle>
-            <text className="cls-8" transform="translate(542.3 215.42)">Q<tspan className="cls-11" x="5.46" y="0">a</tspan><tspan className="cls-12" x="9.24" y="0">trun</tspan></text>
+            <text className="cls-8" transform="translate(542.3 215.42)">Qatrun</text>
             <circle id="SabhaCity" className="cls-7" cx="532.3" cy="166.87" r="4.13">
             {
                 props.gameScreen === GameScreen.City && props.currentCity.name === "Sabha" &&
                 <animate attributeType="XML" attributeName="fill" values="black;red;black" dur="2s" repeatCount="indefinite"/>
             }
             </circle>
-            <text className="cls-8" transform="translate(532.3 160.42)"><tspan className="cls-13">S</tspan><tspan x="3.93" y="0">abha</tspan></text>
+            <text className="cls-8" transform="translate(532.3 160.42)">Sabha</text>
             <circle id="TripoliCity" className="cls-7" cx="507.88" cy="77.11" r="4.13">
             {
                 props.gameScreen === GameScreen.City && props.currentCity.name === "Tripoli" &&
                 <animate attributeType="XML" attributeName="fill" values="black;red;black" dur="2s" repeatCount="indefinite"/>
             }
             </circle>
-            <text className="cls-14" transform="translate(507.88 70.66)">T<tspan className="cls-10" x="3.58" y="0">r</tspan><tspan className="cls-15" x="6.2" y="0">ipoli</tspan></text>
+            <text className="cls-8" transform="translate(507.88 70.66)">Tripoli</text>
         </g>
-        </svg>
+        </svg>        
+        <button className="notebook-zoom" onClick={ () => { props.zoomMap(!props.zoomedOut) }}>{ props.zoomedOut ? "+" : "-" }</button>
+        </>
     );
 }
 

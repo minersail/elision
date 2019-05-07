@@ -3,10 +3,11 @@ import { CityData, CityHubType, Migrant, CityHub, Resource, ResourceUnit } from 
 import RecruitmentHub from "./RecruitmentHub";
 import JourneyHub from "./JourneyHub";
 import ShopHub from "./ShopHub";
+import { generateLinks } from "../utils/functions";
 
 interface CityProps {
     city: CityData;
-    currentHub: CityHub;
+    currentHub: CityHub | null;
     hasSelectedMigrants: boolean;
     migrants: Migrant[];
     resources: ResourceUnit[];
@@ -32,13 +33,14 @@ function City(props: CityProps) {
                     ))
                 }
                 </div>
+                <div className="city-description">{ generateLinks(props.city.description, props.goToDefinition) }</div>
             </div>
 
             ||
 
             props.currentHub !== null && props.currentHub.type === CityHubType.Recruitment &&    
-            <RecruitmentHub hubName={ props.currentHub.name } switchHub={ props.switchHub } acceptRecruit={ props.acceptRecruit }
-            recruitString={ props.city.recruitString } recruitString2={ props.city.recruitString2 } goToDefinition={ props.goToDefinition }
+            <RecruitmentHub hubName={ props.currentHub.name } switchHub={ props.switchHub } acceptRecruit={ props.acceptRecruit } cityName={ props.city.name }
+            recruitString={ props.currentHub.recruitString } recruitString2={ props.currentHub.recruitString2 } goToDefinition={ props.goToDefinition }
             migrants={ props.migrants.filter((migrant) => props.currentHub !== null && 
                 props.currentHub.type === CityHubType.Recruitment && props.currentHub.migrants.includes(migrant.id)) } />            
 

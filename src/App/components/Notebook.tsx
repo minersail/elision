@@ -12,6 +12,7 @@ interface NotebookProps {
     
     toggleNotebook: (enable: boolean) => void;
     flipNotebook: (forwards: boolean) => void;
+    zoomMap: (zoomIn: boolean) => void;
 }
 
 function Notebook(props: NotebookProps) {
@@ -20,7 +21,7 @@ function Notebook(props: NotebookProps) {
             <div className="notebook-container" onClick={ (e) => { e.stopPropagation(); } }>
                 {
                     props.notebook.section === NotebookSection.Map &&
-                    <Map flipNotebook= { props.flipNotebook }
+                    <Map flipNotebook={ props.flipNotebook } zoomMap={ props.zoomMap }
                     zoomedOut={ props.notebook.mapZoomed } currentCity={ props.currentCity } journeyData={ props.journeyData } gameScreen={ props.gameScreen } />
 
                     ||
@@ -28,19 +29,27 @@ function Notebook(props: NotebookProps) {
                     props.notebook.section === NotebookSection.Biography &&
                     <>
                         <div className="notebook-page left" onClick={ () => { props.flipNotebook(false); }}>
-                            <h2>{ props.activeMigrants[props.notebook.migrantIndex].name }</h2>
-                            <p>{ props.activeMigrants[props.notebook.migrantIndex].nationality }</p>
+                            <div className="notebook-bio-header">
+                                <h2>{ props.activeMigrants[props.notebook.migrantIndex].name }</h2>
+                                <p>{ props.activeMigrants[props.notebook.migrantIndex].nationality }</p>
+                                <p>Speaks { props.activeMigrants[props.notebook.migrantIndex].languages.slice(0, -1).join(", ") + 
+                                (props.activeMigrants[props.notebook.migrantIndex].languages.length > 1 ? " and " : "") + 
+                                props.activeMigrants[props.notebook.migrantIndex].languages.slice(-1).pop() }</p>
+                            </div>
                             <p>{ props.activeMigrants[props.notebook.migrantIndex].shortBio }</p>
-                            <p>{ props.activeMigrants[props.notebook.migrantIndex].languages }</p>
                         </div>
                         <div className="notebook-page right" onClick={ () => { props.flipNotebook(true); }}>
                         {
                             props.notebook.migrantIndex !== props.activeMigrants.length - 1 &&
                             <>
+                            <div className="notebook-bio-header">
                                 <h2>{ props.activeMigrants[props.notebook.migrantIndex + 1].name }</h2>
                                 <p>{ props.activeMigrants[props.notebook.migrantIndex + 1].nationality }</p>
-                                <p>{ props.activeMigrants[props.notebook.migrantIndex + 1].shortBio }</p>
-                                <p>{ props.activeMigrants[props.notebook.migrantIndex + 1].languages }</p>
+                                <p>Speaks { props.activeMigrants[props.notebook.migrantIndex + 1].languages.slice(0, -1).join(", ") + 
+                                (props.activeMigrants[props.notebook.migrantIndex + 1].languages.length > 1 ? " and " : "") + 
+                                props.activeMigrants[props.notebook.migrantIndex + 1].languages.slice(-1).pop() }</p>
+                            </div>
+                            <p>{ props.activeMigrants[props.notebook.migrantIndex + 1].shortBio }</p>
                             </>
                         }
                         </div>
@@ -50,27 +59,27 @@ function Notebook(props: NotebookProps) {
 
                     props.notebook.section === NotebookSection.Glossary &&
                     <>
-                        <div className="notebook-page left" onClick={ () => { props.flipNotebook(false); }}>
+                        <div className="notebook-page glossary left" onClick={ () => { props.flipNotebook(false); }}>
                         {
                             props.notebook.glossary.filter(g => 
                                 g.name >= props.notebook.glossaryPages[props.notebook.glossaryIndex].start &&
                                 g.name <= props.notebook.glossaryPages[props.notebook.glossaryIndex].end).map((g, i) =>
-                                <React.Fragment key={ i }>         
+                                <div key={ i }>         
                                     <h2>{ g.name }</h2>
                                     <p>{ g.definition }</p>
-                                </React.Fragment>)
+                                </div>)
                         }
                         </div>
-                        <div className="notebook-page right" onClick={ () => { props.flipNotebook(true); }}>
+                        <div className="notebook-page glossary right" onClick={ () => { props.flipNotebook(true); }}>
                         {
                             props.notebook.glossaryIndex !== props.notebook.glossaryPages.length - 1 &&
                             props.notebook.glossary.filter(g => 
                                 g.name >= props.notebook.glossaryPages[props.notebook.glossaryIndex + 1].start &&
                                 g.name <= props.notebook.glossaryPages[props.notebook.glossaryIndex + 1].end).map((g, i) =>
-                                <React.Fragment key={ i }>         
+                                <div key={ i }>
                                     <h2>{ g.name }</h2>
                                     <p>{ g.definition }</p>
-                                </React.Fragment>)
+                                </div>)
                         }
                         </div>
                     </>

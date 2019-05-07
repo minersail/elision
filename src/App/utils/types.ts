@@ -13,8 +13,9 @@ export interface State {
 
     journeyData: JourneyData;
     
+    // TODO: currentCityHub is redundant data - replace it with CityHubType | null
     currentCity: CityData;
-    currentCityHub: CityHub;
+    currentCityHub: CityHub | null; // Null for main screen (not in hub)
 }
 
 export enum GameScreen {
@@ -47,6 +48,9 @@ export type CityHub = {
     name: string;
     type: CityHubType.Recruitment;
     migrants: number[]; // IDs
+
+    recruitString: string;
+    recruitString2: string;
 } | {
     name: string;
     type: CityHubType.Journey;
@@ -56,15 +60,13 @@ export type CityHub = {
     type: CityHubType.Shop;
     resources: ResourceUnit[];
     prices: Map<number, Resource>;
-} | null // Null for main screen (not in hub)
+}
 
 // Graph nodes
 export interface CityData {
     name: string;
+    description: string;
     hubs: CityHub[];
-
-    recruitString: string;
-    recruitString2: string;
 }
 
 // Graph edges (two-way, zones go from fromCity to toCity)
@@ -85,6 +87,12 @@ export interface JourneyData { // Tracks the current journey
     dayEvents: JourneyEvent[];
     day: number;
     dayTime: "morning" | "afternoon" | "night";
+
+    speed: JourneySpeed;
+}
+
+export enum JourneySpeed {
+    Driving, Walking, Stopped
 }
 
 export interface Zone {
@@ -101,6 +109,7 @@ export enum ZoneType {
 export interface EventPoolManager {
     migrantPools: MigrantEventPool[];
     zonePools: ZoneEventPool[];
+    resourceEventPool: ResourceEventPool[];
     idlePool: EventPool;
 }
 
@@ -122,6 +131,12 @@ export interface ZoneEventPool extends EventPool {
     zoneType: ZoneType;
 }
 
+export interface ResourceEventPool extends EventPool {
+    initialEvent: JourneyEvent;
+    initialEventCompleted: boolean;
+    resourceType: Resource;
+}
+
 export interface JourneyDialogue {
     id: number;
     text: string;
@@ -141,10 +156,37 @@ export type JourneyAction = {
 } | {
     actionType: JourneyActionType.ModifyCash;
     cash: number;
+} | {
+    actionType: JourneyActionType.ModifyWater;
+    water: number;
+} | {
+    actionType: JourneyActionType.ModifyDistance;
+    distance: number;
+} | {
+    actionType: JourneyActionType.NegateTravel;
+} | {
+    actionType: JourneyActionType.MoveToCity;
+} | {
+    actionType: JourneyActionType.SwitchSpeed;
+    speed: JourneySpeed;
+} | {
+    actionType: JourneyActionType.ResetResourceEvent;
+    resource: Resource;
+} | {
+    actionType: JourneyActionType.ModifyGas;
+    gas: number;
+} | {
+    actionType: JourneyActionType.LoseMigrant;
+    migrantId: number;
+} | {
+    actionType: JourneyActionType.LoseAllMigrants;
+} | {
+    actionType: JourneyActionType.LoseGame;
 }
 
 export enum JourneyActionType {
-    EndDialogue, GoToDialogue, ModifyCash
+    EndDialogue, GoToDialogue, ModifyCash, ModifyWater, ModifyGas, ModifyDistance, 
+    NegateTravel, MoveToCity, SwitchSpeed, ResetResourceEvent, LoseMigrant, LoseAllMigrants, LoseGame
 }
 
 export const createEndDialogue = (text: string): JourneyOption => ({

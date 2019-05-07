@@ -20,6 +20,7 @@ interface SidebarProps {
 
     toggleNotebook: (enable: boolean) => void;
     flipNotebook: (forwards: boolean) => void;
+    zoomMap: (zoomIn: boolean) => void;
     goToDefinition: (key: string) => void;
 }
 
@@ -37,6 +38,7 @@ function Sidebar(props: SidebarProps) {
                         <label>{ resString(r.type) }</label>
                         <div className="resource-bg">
                             <div className="resource-bar" style={ {width: Math.min(1, r.count / r.capacity) * 100 + "%"} } />
+                            <div className="resource-count">{ r.count } / { r.capacity } L</div>
                         </div>
                     </React.Fragment>
                 )
@@ -44,14 +46,14 @@ function Sidebar(props: SidebarProps) {
             </div>
             
             <div className="sidebar-notebook-container">
-                <div className="sidebar-notebook" onClick={ () => { props.toggleNotebook(true); } } />
+                <div className="sidebar-notebook" onClick={ () => { props.toggleNotebook(true); } }>Notebook</div>
             </div>
             
             {
                 props.notebook.active &&
                 <Notebook notebook={ props.notebook } activeMigrants={ props.activeMigrants }
                 currentCity={ props.currentCity } journeyData={ props.journeyData } gameScreen={ props.gameScreen }
-                toggleNotebook={ props.toggleNotebook } flipNotebook={ props.flipNotebook } />
+                toggleNotebook={ props.toggleNotebook } flipNotebook={ props.flipNotebook } zoomMap={ props.zoomMap }/>
             }
         </div>
     );

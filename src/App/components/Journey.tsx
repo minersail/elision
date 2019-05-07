@@ -1,5 +1,6 @@
 import * as React from "react";
 import { JourneyAction, JourneyDialogue, } from "../utils/types";
+import { generateLinks } from "../utils/functions";
 
 interface JourneyProps {
     destination: string;
@@ -10,6 +11,7 @@ interface JourneyProps {
     dialogue: JourneyDialogue;
     
     processDialogue: (actions: JourneyAction[]) => void;
+    goToDefinition: (key: string) => void;
 }
 
 function Journey(props: JourneyProps) {
@@ -18,7 +20,7 @@ function Journey(props: JourneyProps) {
             <h1 className="journey-destination">{ props.distRemaining }km to { props.destination }</h1>
             <h3 className="journey-day">Day { props.day }, { props.dayTime }</h3>
             <div className="info-container inverted">
-                <div className="info">{ props.dialogue.text }</div>
+                <div className="info">{ generateLinks(props.dialogue.text, props.goToDefinition) }</div>
                 <div className="info-choice-container">
                     {
                         props.dialogue.options.map((option, index) => 

@@ -36,10 +36,10 @@ const migrantEvents: MigrantEventPool[] =
                                 }]
                             },
                             {
-                                choiceText: "Offer him $100 for the road forward",
+                                choiceText: "Offer him 2000 CFA for the road forward",
                                 actions: [{
                                     actionType: JourneyActionType.ModifyCash,
-                                    cash: -100,
+                                    cash: -2000,
                                 },
                                 {
                                     actionType: JourneyActionType.GoToDialogue,
@@ -111,6 +111,9 @@ const migrantEvents: MigrantEventPool[] =
                             {
                                 choiceText: "Circle back and attempt to find them.",
                                 actions: [{
+                                    actionType: JourneyActionType.ModifyDistance,
+                                    distance: -90,  
+                                },{
                                     actionType: JourneyActionType.GoToDialogue,
                                     dialogueId: 3,
                                 }]
@@ -130,12 +133,12 @@ const migrantEvents: MigrantEventPool[] =
                         text: "You turn around and backtrack through the endless desert. After a couple hours' time, you find most of the \
                         books.",
                         options: [
-                            createEndDialogue("TODO: move day forward and subtract resources"),
+                            createEndDialogue("Continue onwards."),
                             {
                                 choiceText: "Demand that she pay you for lost time.",
                                 actions: [{
                                     actionType: JourneyActionType.ModifyCash,
-                                    cash: 50,
+                                    cash: 2000,
                                 },
                                 {
                                     actionType: JourneyActionType.GoToDialogue,
@@ -165,9 +168,11 @@ const migrantEvents: MigrantEventPool[] =
                 dialogues: [
                     {
                         id: 0,
-                        text: "Calvin says hi.",
+                        text: "Calvin introduces himself, telling you about his life's story in Cameroon, his brother's life in Madrid, \
+                        his aspirations, and more. He seems very positive for someone who has just gambled everything for a better future.",
                         options: [
-                            createEndDialogue("Say hi back."),
+                            createEndDialogue("Introduce yourself."),
+                            createEndDialogue("Mumble a greeting back."),
                         ],
                     }, 
                 ],
