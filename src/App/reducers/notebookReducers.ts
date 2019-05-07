@@ -1,6 +1,6 @@
 import { State, NotebookSection, MigrantState } from "../utils/types";
 import { glossary, glossaryPages } from "./state/glossary";
-import { AssertionError, notEqual } from "assert";
+import { AssertionError } from "assert";
 
 function flipNotebook(state: State, forwards: boolean): State {
     const activeMigrants = state.migrants.filter(m => m.state === MigrantState.Journeying);
@@ -49,7 +49,7 @@ function flipNotebook(state: State, forwards: boolean): State {
                     glossaryIndex: forwards ? 
                         (atMax ? state.notebook.glossaryIndex : state.notebook.glossaryIndex + 2) :
                         (atMin ? state.notebook.glossaryIndex : state.notebook.glossaryIndex - 2),
-                    migrantIndex: !forwards && atMin ? Math.floor(activeMigrants.length / 2) * 2 : state.notebook.migrantIndex,
+                    migrantIndex: !forwards && atMin ? Math.floor((activeMigrants.length - 1) / 2) * 2 : state.notebook.migrantIndex,
                 }
             }
         }
