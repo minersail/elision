@@ -1,44 +1,8 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Elision
+website[https://elision.surge.sh]
+### Elision is a point-and-click adventure web game that allows you to play as a refugee smuggler in the Sahara region of Africa.
+The project explores the topic of migration and the surrounding historical, political, economic, and social context that causes it, using real-life stories to promote a healthier narrative of immigrants as individuals seeking to find refuge from socio-political disasters, rather than as a group of nameless, suffering victims deserving of pity or scorn.
 
-## Available Scripts
+Video games have been shown to be an engaging, digestible way to spread messages and enact change; they have been specifically selected for this project because of their ability to synthesize people, locations, histories, stories and social structures together to better convey context of why the immigration crisis is so large. The hope is that players will learn best by engaging with the game, making difficult decisions, and in the end, drawing conclusions for themselves.
 
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Showcased at the Design, Cultures, and Creativity honors college capstone fair 2019.
