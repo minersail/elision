@@ -1,5 +1,5 @@
 # Elision
-website[https://elision.surge.sh]
+[website](https://elision.surge.sh)
 ### Elision is a point-and-click adventure web game that allows you to play as a refugee smuggler in the Sahara region of Africa.
 The project explores the topic of migration and the surrounding historical, political, economic, and social context that causes it, using real-life stories to promote a healthier narrative of immigrants as individuals seeking to find refuge from socio-political disasters, rather than as a group of nameless, suffering victims deserving of pity or scorn.
 
